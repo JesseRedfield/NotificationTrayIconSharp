@@ -330,3 +330,12 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 
+# XCode
+.DS_Store
+*.swp
+*~.nib
+
+*.pbxuser
+*.perspective
+*.perspectivev3
+**/xcuserdata
