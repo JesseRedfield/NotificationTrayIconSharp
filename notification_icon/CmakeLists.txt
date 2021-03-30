@@ -1,0 +1,23 @@
+cmake_minimum_required (VERSION 3.7)
+
+project(notification_tray_icon)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_ROOT}/${CMAKE_BUILD_TYPE})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+
+if(WIN32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Gy /WX /w34238")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MD /Zi")   
+    add_definitions(/DOS_WINDOWS)
+elseif(APPLE)
+    set(CMAKE_OSX_ARCHITECTURES x86_64)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.10")
+    set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BIN_ROOT}/${CMAKE_BUILD_TYPE})
+    add_definitions(-DOS_OSX)
+elseif(UNIX)
+    add_definitions(-DOS_LINUX)
+endif()
+
+add_subdirectory(src)

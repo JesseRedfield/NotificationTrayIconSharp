@@ -1,0 +1,13 @@
+cmake_minimum_required (VERSION 3.7)
+
+set(HEADERS ${HEADERS}
+
+PARENT_SCOPE
+)
+
+set(SOURCE ${SOURCE}   
+    ${CMAKE_CURRENT_SOURCE_DIR}/TrayIconMac.mm
+    ${CMAKE_CURRENT_SOURCE_DIR}/TrayIconMac.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/TrayMenu.mm
+PARENT_SCOPE
+)
