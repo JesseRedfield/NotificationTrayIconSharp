@@ -35,9 +35,10 @@ public:
 
 private:
     //MenuItemSelectedEventCallback mSelectedCallback;
+    bool bInitialized;
     wchar_t* mpIconPathStr;
-    WNDCLASSEX* mpWndClassEx;
-    NOTIFYICONDATA* mpNotifyIconData;
+    WNDCLASSEX mWndClassEx;
+    NOTIFYICONDATA mNotifyIconData;
     HWND mhWnd;
     HMENU mhMenu;
 };

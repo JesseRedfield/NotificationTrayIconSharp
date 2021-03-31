@@ -43,14 +43,7 @@ private:
     MENUITEMINFO mhMenuItem;
     HMENU mhMenu;
     CTrayIcon* mpOwner;
+    wchar_t* mpText;
 };
 
 #endif  // __TRAY_MENU_H__
-
-
-//MENUITEMINFO item;
-//memset(&item, 0, sizeof(item));
-//item.cbSize = sizeof(MENUITEMINFO);
-//item.fMask = MIIM_ID | MIIM_TYPE | MIIM_STATE | MIIM_DATA;
-//item.fType = 0;
-//item.fState = 0;

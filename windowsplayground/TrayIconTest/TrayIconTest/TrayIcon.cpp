@@ -3,8 +3,9 @@
 
 CTrayIcon::CTrayIcon()
 {
-    mpWndClassEx = NULL;
-    mpNotifyIconData = NULL;
+    //mWndClassEx = NULL;
+    //mNotifyIconData = NULL;
+    bInitialized = false;
     mhWnd = NULL;
     mhMenu = NULL;
     mpIconPathStr = NULL;
@@ -12,18 +13,16 @@ CTrayIcon::CTrayIcon()
     
 CTrayIcon::~CTrayIcon()
 {
-    if (mpWndClassEx != NULL)
-        delete mpWndClassEx;
-    mpWndClassEx = NULL;
+    //if (mWndClassEx != NULL)
+    //    delete mWndClassEx;
+    //mWndClassEx = NULL;
 
 
-    if (mpNotifyIconData != NULL) {
-        Shell_NotifyIcon(NIM_DELETE, mpNotifyIconData);
+    if (bInitialized) {
+        Shell_NotifyIcon(NIM_DELETE, &mNotifyIconData);
 
-        if (mpNotifyIconData->hIcon != NULL)
-            DestroyIcon(mpNotifyIconData->hIcon);
-
-        mpNotifyIconData = NULL;
+        if (mNotifyIconData.hIcon != NULL)
+            DestroyIcon(mNotifyIconData.hIcon);
     }
 
     if (mhMenu != NULL)
@@ -47,14 +46,14 @@ void CTrayIcon::InitializeMenu(const char* pszIconPath)
     HINSTANCE hInstance = GetModuleHandle(NULL);
 
     if (!GetClassInfo(hInstance, WC_TRAY_CLASS_NAME, &wc)) {
-        mpWndClassEx = new WNDCLASSEX();
-        memset(mpWndClassEx, 0, sizeof(WNDCLASSEX));
-        mpWndClassEx->cbSize = sizeof(WNDCLASSEX);
-        mpWndClassEx->lpfnWndProc = WndProc;
-        mpWndClassEx->hInstance = GetModuleHandle(NULL);
-        mpWndClassEx->lpszClassName = WC_TRAY_CLASS_NAME;
+        //mWndClassEx = new WNDCLASSEX();
+        memset(&mWndClassEx, 0, sizeof(WNDCLASSEX));
+        mWndClassEx.cbSize = sizeof(WNDCLASSEX);
+        mWndClassEx.lpfnWndProc = WndProc;
+        mWndClassEx.hInstance = GetModuleHandle(NULL);
+        mWndClassEx.lpszClassName = WC_TRAY_CLASS_NAME;
 
-        if (!RegisterClassEx(mpWndClassEx)) {
+        if (!RegisterClassEx(&mWndClassEx)) {
             return;
         }
     }
@@ -65,14 +64,15 @@ void CTrayIcon::InitializeMenu(const char* pszIconPath)
     }
     UpdateWindow(mhWnd);
 
-    mpNotifyIconData = new NOTIFYICONDATA;
-    mpNotifyIconData->cbSize = sizeof(NOTIFYICONDATA);
-    mpNotifyIconData->hWnd = mhWnd;
-    mpNotifyIconData->uID = 0;
-    mpNotifyIconData->uFlags = NIF_ICON | NIF_MESSAGE;
-    mpNotifyIconData->uCallbackMessage = WM_TRAY_CALLBACK_MESSAGE;
-    Shell_NotifyIcon(NIM_ADD, mpNotifyIconData);
+    //mNotifyIconData = new NOTIFYICONDATA;
+    mNotifyIconData.cbSize = sizeof(NOTIFYICONDATA);
+    mNotifyIconData.hWnd = mhWnd;
+    mNotifyIconData.uID = 0;
+    mNotifyIconData.uFlags = NIF_ICON | NIF_MESSAGE;
+    mNotifyIconData.uCallbackMessage = WM_TRAY_CALLBACK_MESSAGE;
+    Shell_NotifyIcon(NIM_ADD, &mNotifyIconData);
 
+    bInitialized = true;
     SetIcon(pszIconPath);
 }
 
@@ -89,17 +89,17 @@ void CTrayIcon::SetIcon(const char* pszIconPath)
     MultiByteToWideChar(CP_ACP, 0, pszIconPath, -1, mpIconPathStr, 4096);
     ExtractIconEx(mpIconPathStr, 0, NULL, &icon, 1);
 
-    if (mpNotifyIconData->hIcon) {
-        DestroyIcon(mpNotifyIconData->hIcon);
+    if (mNotifyIconData.hIcon) {
+        DestroyIcon(mNotifyIconData.hIcon);
     }
 
-    mpNotifyIconData->hIcon = icon;
-    Shell_NotifyIcon(NIM_MODIFY, mpNotifyIconData);
+    mNotifyIconData.hIcon = icon;
+    Shell_NotifyIcon(NIM_MODIFY, &mNotifyIconData);
 }
 
 void CTrayIcon::OnSelected()
 {
-    CTrayMenuItem* pNewItem = new CTrayMenuItem(1000, "HELLO WORLD");
+    CTrayMenuItem* pNewItem = new CTrayMenuItem(1000, "Hello");
     AddMenuItem(pNewItem);
 }
 

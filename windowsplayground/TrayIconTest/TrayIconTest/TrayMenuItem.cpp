@@ -107,9 +107,8 @@ void CTrayMenuItem::RebuildMenu(HMENU hMenu)
     mhMenuItem.fState = 0;
 
     mhMenuItem.wID = mUUID;
-    mhMenuItem.dwTypeData = new wchar_t[4096];
+    mhMenuItem.dwTypeData = mpText;
     mhMenuItem.dwItemData = (ULONG_PTR)this;
-    MultiByteToWideChar(CP_ACP, 0, "HELLO WORLD", -1, mhMenuItem.dwTypeData, 4096);
 
     if (mbDisabled) {
         mhMenuItem.fState |= MFS_DISABLED;
