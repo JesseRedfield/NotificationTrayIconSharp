@@ -24,7 +24,7 @@ namespace notification_tray_icon_private
 
     protected:
         std::map<uint32_t, ITrayMenuItem *> _MenuItems;
-    
+
     private:
         static uint32_t MenuItemId;
     };

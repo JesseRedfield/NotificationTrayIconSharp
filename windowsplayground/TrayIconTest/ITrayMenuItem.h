@@ -12,7 +12,7 @@ namespace notification_tray_icon_private
     class ITrayMenuItem : public IMenuContainer
     {
     public:
-        ITrayMenuItem(CSCHAR *pszText);
+        ITrayMenuItem(const CSCHAR *pszText);
 
         ~ITrayMenuItem();
 
@@ -20,7 +20,7 @@ namespace notification_tray_icon_private
 
         void SetOwner(ITrayIcon *pOwner);
 
-        void SetText(CSCHAR *pszText);
+        virtual void SetText(const CSCHAR *pszText) = 0;
 
         bool GetDisabled();
 
@@ -34,7 +34,7 @@ namespace notification_tray_icon_private
 
         bool RemoveMenuItem(ITrayMenuItem *pTrayMenuItem, bool recurse = false);
 
-        void OnSelected();
+        virtual void OnSelected() = 0;
 
         void SetSelectedCallback(MenuItemSelectedEventCallback callback);
 
@@ -44,7 +44,6 @@ namespace notification_tray_icon_private
         uint32_t _UUID;
         ITrayIcon *_pOwner;
         MenuItemSelectedEventCallback _SelectedCallback;
-
     };
 }
 

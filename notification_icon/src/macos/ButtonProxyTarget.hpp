@@ -1,5 +1,7 @@
 #ifndef ButtonProxyTarget_h
 #define ButtonProxyTarget_h
+#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 class IButtonProxyTarget
 {

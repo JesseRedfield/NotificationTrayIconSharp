@@ -21,15 +21,17 @@ namespace notification_tray_icon_private
 
         ~CTrayIcon();
 
-        void InitializeMenu(CSCHAR *pszIconPath);
+        void InitializeMenu(const CSCHAR *pszIconPath);
 
-        void SetIcon(CSCHAR *pszIconPath);
+        void SetIcon(const CSCHAR *pszIconPath);
 
         bool AddMenuItem(ITrayMenuItem *pTrayMenu);
 
-        bool RemoveMenuItem(ITrayMenuItem* pTrayMenu);
+        bool RemoveMenuItem(ITrayMenuItem *pTrayMenu, bool recurse = false);
 
         void RebuildMenu();
+
+        void OnSelected();
 
         int MessageLoop(bool blocking);
 
