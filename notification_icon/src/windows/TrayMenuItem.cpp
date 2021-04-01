@@ -3,7 +3,7 @@
 
 namespace notification_tray_icon_private
 {
-    CTrayMenuItem::CTrayMenuItem(CSCHAR *pszText) : ITrayMenuItem(pszText)
+    CTrayMenuItem::CTrayMenuItem(const CSCHAR *pszText) : ITrayMenuItem(pszText)
     {
         mpText = NULL;
         HMENU mhMenu = NULL;
@@ -18,7 +18,7 @@ namespace notification_tray_icon_private
         SAFE_DELETE(mpText);
     }
 
-    void CTrayMenuItem::SetText(CSCHAR *pszText)
+    void CTrayMenuItem::SetText(const CSCHAR *pszText)
     {
         SAFE_DELETE(mpText);
 
@@ -87,7 +87,7 @@ namespace notification_tray_icon_private
 
             for (std::map<uint32_t, ITrayMenuItem *>::iterator it = _MenuItems.begin(); it != _MenuItems.end(); it++)
             {
-                CTrayMenuItem* pValue = (CTrayMenuItem*)it->second;
+                CTrayMenuItem *pValue = (CTrayMenuItem *)it->second;
                 pValue->RebuildMenu(mhMenu);
             }
         }

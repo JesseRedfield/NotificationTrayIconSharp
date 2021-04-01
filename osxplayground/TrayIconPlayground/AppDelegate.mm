@@ -6,7 +6,6 @@
 //
 
 #import "AppDelegate.h"
-#include "TrayIcon.hpp"
 
 @interface AppDelegate ()
 

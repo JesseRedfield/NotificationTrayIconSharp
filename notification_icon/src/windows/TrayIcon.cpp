@@ -35,7 +35,7 @@ namespace notification_tray_icon_private
         SAFE_DELETE(_pIconPathStr);
     }
 
-    void CTrayIcon::InitializeMenu(CSCHAR *pszIconPath)
+    void CTrayIcon::InitializeMenu(const CSCHAR *pszIconPath)
     {
         WNDCLASS wc;
         HINSTANCE hInstance = GetModuleHandle(NULL);
@@ -69,7 +69,7 @@ namespace notification_tray_icon_private
         SetIcon(pszIconPath);
     }
 
-    void CTrayIcon::SetIcon(CSCHAR *pszIconPath)
+    void CTrayIcon::SetIcon(const CSCHAR *pszIconPath)
     {
         HICON icon;
 
@@ -131,7 +131,7 @@ namespace notification_tray_icon_private
         mhMenu = CreatePopupMenu();
         for (std::map<uint32_t, ITrayMenuItem *>::iterator it = _MenuItems.begin(); it != _MenuItems.end(); it++)
         {
-            CTrayMenuItem* pItem = (CTrayMenuItem*)it->second; 
+            CTrayMenuItem *pItem = (CTrayMenuItem *)it->second;
             pItem->RebuildMenu(mhMenu);
         }
     }
