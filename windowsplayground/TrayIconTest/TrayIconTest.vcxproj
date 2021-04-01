@@ -18,6 +18,23 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common.h" />
+    <ClInclude Include="IMenuContainer.h" />
+    <ClInclude Include="ITrayIcon.h" />
+    <ClInclude Include="ITrayMenuItem.h" />
+    <ClInclude Include="NotificationTrayIcon.h" />
+    <ClInclude Include="windows\TrayIcon.h" />
+    <ClInclude Include="windows\TrayMenuItem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="IMenuContainer.cpp" />
+    <ClCompile Include="ITrayIcon.cpp" />
+    <ClCompile Include="ITrayMenuItem.cpp" />
+    <ClCompile Include="TrayIconTest.cpp" />
+    <ClCompile Include="windows\TrayIcon.cpp" />
+    <ClCompile Include="windows\TrayMenuItem.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -138,17 +155,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="IMenuContainer.cpp" />
-    <ClCompile Include="TrayIcon.cpp" />
-    <ClCompile Include="TrayIconTest.cpp" />
-    <ClCompile Include="TrayMenuItem.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="IMenuContainer.h" />
-    <ClInclude Include="TrayIcon.h" />
-    <ClInclude Include="TrayMenuItem.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

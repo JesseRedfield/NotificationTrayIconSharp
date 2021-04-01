@@ -76,7 +76,6 @@ void CTrayIcon::SetIcon(const char* pszIconPath)
     mpImage = [[NSImage alloc] initWithContentsOfFile: mpIconPath];
     
     [[mpStatusItem button] setImage: mpImage];
-
 }
 
 void CTrayIcon::OnSelected()
