@@ -1,0 +1,55 @@
+#cmake_minimum_required (VERSION 3.7)
+
+set(HEADERS    
+    #NotificationTrayIcon.h
+    common.h
+    IMenuContainer.h
+    ITrayIcon.h
+    ITrayMenuItem.h
+    NotificationTrayIcon.h
+)
+
+set(SOURCE
+   IMenuContainer.cpp
+   ITrayIcon.cpp
+   ITrayMenuItem.cpp
+)
+
+message(STATUS "BUILD_ROOT=${BUILD_ROOT}")
+message(STATUS "BIN_ROOT=${BIN_ROOT}")
+
+if(WIN32)
+    add_subdirectory(windows)
+#elseif(APPLE)
+#    add_subdirectory(macos)
+#elseif(UNIX)
+#    add_subdirectory(linux)
+endif()
+
+# set any additional include directories prior to adding the target or the link_directories call simply won't work
+if(UNIX AND NOT APPLE)
+    include(FindPkgConfig)
+    pkg_check_modules(GTK REQUIRED "gtk+-3.0")
+    include_directories(${GTK_INCLUDE_DIRS})
+    link_directories(${GTK3_LIBRARY_DIRS})
+    add_definitions(${GTK3_CFLAGS_OTHER})
+endif()
+
+# add the target
+if(WIN32)
+    add_library(notificationicon SHARED ${SOURCE} ${HEADERS})
+elseif(APPLE)
+    add_library(notificationicon SHARED ${SOURCE} ${HEADERS})
+elseif(UNIX)
+    add_library(notificationicon SHARED ${SOURCE} ${HEADERS})
+endif()
+
+# setup link depends
+if(WIN32)
+    # we only link against microsoft SDKs all good 
+elseif(APPLE)
+    find_library(COCOA_LIBRARY Cocoa)
+    target_link_libraries(notificationicon ${COCOA_LIBRARY})
+elseif(UNIX)
+    target_link_libraries(notificationicon ${GTK3_LIBRARIES})
+endif()
