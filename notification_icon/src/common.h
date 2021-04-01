@@ -10,7 +10,6 @@
             delete pPtr;  \
         pPtr = NULL;      \
     }
-//#define OS_WINDOWS true
 
 #ifdef OS_WINDOWS
 #define EXPORT __declspec(dllexport)
@@ -25,6 +24,20 @@
 #define CSCHAR char
 #define CSSTRLEN strlen
 #define CSSTRCPY(dst, src, size) strcpy(dst, src)
+
+#if !__has_feature(objc_arc)
+#define OBJC_SAFE_RELEASE(pPtr) \
+    {                           \
+        if (pPtr != NULL)       \
+            [pPtr release];     \
+        pPtr = NULL;            \
+    }
+#else
+#define OBJC_SAFE_RELEASE(pPtr) \
+    {                           \
+        pPtr = NULL;            \
+    }
+#endif
 #endif
 
 namespace notification_tray_icon

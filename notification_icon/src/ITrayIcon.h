@@ -4,11 +4,6 @@
 #include "IMenuContainer.h"
 #include "ITrayMenuItem.h"
 
-//windows implementation
-#include <windows.h>
-#include <shellapi.h>
-#include <tchar.h>
-
 #define WM_TRAY_CALLBACK_MESSAGE (WM_USER + 1)
 #define WC_TRAY_CLASS_NAME _T("tray_icon_class")
 
