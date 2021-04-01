@@ -16,19 +16,27 @@ namespace notification_tray_icon_private
         _SelectedCallback = callback;
     }
 
-    void ITrayIcon::OnSelected()
-    {
-        if (_SelectedCallback != NULL)
-            _SelectedCallback(this);
-    }
-
     bool ITrayIcon::AddMenuItem(ITrayMenuItem *pTrayMenuItem)
     {
-        return IMenuContainer::AddMenuItem(pTrayMenuItem);
+        if (IMenuContainer::AddMenuItem(pTrayMenuItem))
+        {
+            pTrayMenuItem->SetOwner(this);
+
+            return true;
+        }
+
+        return false;
     }
 
-    bool ITrayIcon::RemoveMenuItem(ITrayMenuItem *pTrayMenuItem)
+    bool ITrayIcon::RemoveMenuItem(ITrayMenuItem *pTrayMenuItem, bool recurse)
     {
-        return IMenuContainer::RemoveMenuItem(pTrayMenuItem);
+        if (IMenuContainer::RemoveMenuItem(pTrayMenuItem, recurse))
+        {
+            pTrayMenuItem->SetOwner(NULL);
+
+            return true;
+        }
+
+        return false;
     }
 }

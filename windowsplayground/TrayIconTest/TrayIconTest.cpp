@@ -9,22 +9,26 @@ using namespace notification_tray_icon_private;
 
 CTrayIcon* mpTrayIcon = NULL;
 
+void sub_item_clicked(void* pParam)
+{
+    CTrayMenuItem* pMenuItem = (CTrayMenuItem*)pParam;
+    mpTrayIcon->RemoveMenuItem(pMenuItem, true);
+}
+
 void item_clicked(void* pParam)
 {
     CTrayMenuItem* pMenuItem = (CTrayMenuItem*)pParam;
 
-    std::wstring text(L"World");
-    const wchar_t* szText = text.c_str();
-    CTrayMenuItem* pNewMenuItem = new CTrayMenuItem((wchar_t*)szText);
-    pNewMenuItem->SetSelectedCallback(item_clicked);
+    const wchar_t* text = L"World";
+    CTrayMenuItem* pNewMenuItem = new CTrayMenuItem(text);
+    pNewMenuItem->SetSelectedCallback(sub_item_clicked);
 
-    //mpTrayIcon->AddMenuItem(pNewMenuItem);
+    pMenuItem->AddMenuItem(pNewMenuItem);
 
-    std::wstring clicked(L"Clicked");
-    const wchar_t* szClicked = clicked.c_str();
+    const wchar_t* clicked = L"Clicked";
     pMenuItem->SetChecked(true);
-    pMenuItem->SetDisabled(true);
-    pMenuItem->SetText((wchar_t*)szClicked);
+    //pMenuItem->SetDisabled(true);
+    pMenuItem->SetText(clicked);
 }
 
 void icon_clicked(void* pParam)

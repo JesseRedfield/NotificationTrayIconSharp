@@ -56,6 +56,6 @@ namespace notification_tray_icon_private
     uint32_t IMenuContainer::GenerateId()
     {
         //over 4 billion IDs, no one is making a tray menu that big
-        return MenuItemId++; 
+        return MenuItemId++;
     }
 }

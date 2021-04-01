@@ -27,9 +27,11 @@ namespace notification_tray_icon_private
 
         bool AddMenuItem(ITrayMenuItem *pTrayMenu);
 
-        bool RemoveMenuItem(ITrayMenuItem *pTrayMenu);
+        bool RemoveMenuItem(ITrayMenuItem *pTrayMenu, bool recurse = false);
 
         void RebuildMenu();
+
+        void OnSelected();
 
         int MessageLoop(bool blocking);
 

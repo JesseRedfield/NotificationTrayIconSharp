@@ -55,6 +55,14 @@ namespace notification_tray_icon_private
         return false;
     }
 
+    void CTrayMenuItem::OnSelected()
+    {
+        if (_bDisabled || !_MenuItems.empty()) return;
+
+        if (_SelectedCallback != NULL)
+            _SelectedCallback(this);
+    }
+
     bool CTrayMenuItem::RemoveMenuItem(CTrayMenuItem *pTrayMenuItem, bool recurse)
     {
         if (ITrayMenuItem::AddMenuItem(pTrayMenuItem))

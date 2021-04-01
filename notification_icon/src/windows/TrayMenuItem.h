@@ -34,6 +34,8 @@ namespace notification_tray_icon_private
 
         void ConstructMenuItemInfo();
 
+        void OnSelected();
+
     private:
         MENUITEMINFOW mhMenuItem;
         HMENU mhMenu;

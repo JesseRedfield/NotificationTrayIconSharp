@@ -14,11 +14,11 @@ namespace notification_tray_icon_private
     class CTrayMenuItem : public ITrayMenuItem
     {
     public:
-        CTrayMenuItem(CSCHAR *pszText);
+        CTrayMenuItem(const CSCHAR *pszText);
 
         ~CTrayMenuItem();
 
-        void SetText(CSCHAR *pszText);
+        void SetText(const CSCHAR *pszText);
 
         void SetDisabled(bool disabled);
 
@@ -33,6 +33,8 @@ namespace notification_tray_icon_private
         void RebuildMenu(HMENU hMenu);
 
         void ConstructMenuItemInfo();
+
+        void OnSelected();
 
     private:
         MENUITEMINFOW mhMenuItem;

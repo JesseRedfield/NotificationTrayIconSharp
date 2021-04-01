@@ -93,6 +93,12 @@ namespace notification_tray_icon_private
         Shell_NotifyIcon(NIM_MODIFY, &_NotifyIconData);
     }
 
+    void CTrayIcon::OnSelected()
+    {
+        if (_SelectedCallback != NULL)
+            _SelectedCallback(this);
+    }
+
     bool CTrayIcon::AddMenuItem(ITrayMenuItem *pTrayMenuItem)
     {
         if (ITrayIcon::AddMenuItem(pTrayMenuItem))
@@ -104,9 +110,9 @@ namespace notification_tray_icon_private
         return false;
     }
 
-    bool CTrayIcon::RemoveMenuItem(ITrayMenuItem *pTrayMenuItem)
+    bool CTrayIcon::RemoveMenuItem(ITrayMenuItem *pTrayMenuItem, bool recurse)
     {
-        if (ITrayIcon::RemoveMenuItem(pTrayMenuItem))
+        if (ITrayIcon::RemoveMenuItem(pTrayMenuItem, recurse))
         {
             RebuildMenu();
             return true;
