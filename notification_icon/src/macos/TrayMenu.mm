@@ -1,9 +1,7 @@
 #include "../TrayMenu.h"
-#include "../NativeTypes.h"
+#include "../common.h"
 #include <cstdlib>
 #include <string.h>
-
-using namespace notification_tray_icon;
 
 namespace notification_tray_icon_private
 {

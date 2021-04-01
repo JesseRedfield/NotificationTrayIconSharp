@@ -1,7 +1,5 @@
 #include "TrayIconMac.h"
 
-using namespace notification_tray_icon;
-
 namespace notification_tray_icon_private
 {
     void CTrayIconMac::InitializeMenu()

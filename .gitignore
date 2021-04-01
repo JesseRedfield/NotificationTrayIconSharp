@@ -339,3 +339,6 @@ ASALocalRun/
 *.perspective
 *.perspectivev3
 **/xcuserdata
+
+#CMAKE
+_build
