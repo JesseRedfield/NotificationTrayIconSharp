@@ -97,7 +97,6 @@ namespace notification_tray_icon_private
     {
         if (ITrayIcon::AddMenuItem(pTrayMenuItem))
         {
-            pTrayMenuItem->SetOwner(this);
             RebuildMenu();
             return true;
         }
@@ -109,7 +108,6 @@ namespace notification_tray_icon_private
     {
         if (ITrayIcon::RemoveMenuItem(pTrayMenuItem))
         {
-            pTrayMenuItem->SetOwner(NULL);
             RebuildMenu();
             return true;
         }
