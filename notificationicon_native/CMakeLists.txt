@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.7)
 
-project(notification_tray_icon)
+project(notificationicon)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_ROOT}/${CMAKE_BUILD_TYPE})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
