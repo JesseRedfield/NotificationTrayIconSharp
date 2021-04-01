@@ -1,9 +1,3 @@
-//
-//  ButonProxy.h
-//  TrayIconPlayground
-//
-//  Created by Jesse Redfield on 3/26/21.
-//
 #import "ButtonProxyTarget.hpp"
 
 #ifndef ButonProxy_h
@@ -11,10 +5,10 @@
 
 @interface ButtonProxy : NSObject
 {
-    IButtonProxyTarget* mpOwner;
+    IButtonProxyTarget *mpOwner;
 }
 
-- (id)initWithOwner:(IButtonProxyTarget*)pOwner;
+- (id)initWithOwner:(IButtonProxyTarget *)pOwner;
 
 - (IBAction)leftClick:(id)sender;
 

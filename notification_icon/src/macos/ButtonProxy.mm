@@ -1,12 +1,4 @@
-//
-//  ButonProxy.m
-//  TrayIconPlayground
-//
-//  Created by Jesse Redfield on 3/26/21.
-//
-
-#import <Foundation/Foundation.h>
-#import "ButonProxy.hpp"
+#import "ButtonProxy.hpp"
 
 @implementation ButtonProxy
 

@@ -3,15 +3,13 @@
 
 namespace notification_tray_icon_private
 {
-    ITrayMenuItem::ITrayMenuItem(CSCHAR *pszText)
+    ITrayMenuItem::ITrayMenuItem(const CSCHAR *pszText)
     {
         _UUID = ITrayMenuItem::GenerateId();
         _bDisabled = false;
         _bChecked = false;
         _pOwner = NULL;
         _SelectedCallback = NULL;
-
-        SetText(pszText);
     }
 
     ITrayMenuItem::~ITrayMenuItem()
@@ -31,10 +29,6 @@ namespace notification_tray_icon_private
         {
             it->second->SetOwner(pOwner);
         }
-    }
-
-    void ITrayMenuItem::SetText(CSCHAR *pszText)
-    {
     }
 
     bool ITrayMenuItem::GetChecked()
@@ -57,12 +51,6 @@ namespace notification_tray_icon_private
         _bDisabled = disabled;
     }
 
-    void ITrayMenuItem::OnSelected()
-    {
-        if (_SelectedCallback != NULL)
-            _SelectedCallback(this);
-    }
-
     void ITrayMenuItem::SetSelectedCallback(MenuItemSelectedEventCallback callback)
     {
         _SelectedCallback = callback;
@@ -82,9 +70,9 @@ namespace notification_tray_icon_private
 
     bool ITrayMenuItem::RemoveMenuItem(ITrayMenuItem *pTrayMenuItem, bool recurse)
     {
-        if (IMenuContainer::AddMenuItem(pTrayMenuItem))
+        if (IMenuContainer::RemoveMenuItem(pTrayMenuItem, recurse))
         {
-            pTrayMenuItem->SetOwner(_pOwner);
+            pTrayMenuItem->SetOwner(NULL);
 
             return true;
         }

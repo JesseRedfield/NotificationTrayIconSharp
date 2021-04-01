@@ -21,19 +21,19 @@ namespace notification_tray_icon_private
         OBJC_SAFE_RELEASE(_pIconPath)
     }
 
-    void CTrayIcon::InitializeMenu(CSCHAR *pszIconPath)
+    void CTrayIcon::InitializeMenu(const CSCHAR *pszIconPath)
     {
     _pStatusItem = [[NSStatusBar systemStatusBar] statusItemWithLength: NSSquareStatusItemLength];
     
-    [[_pStatusItem button] setImage: _pImage];
+    [[_pStatusItem button] setImage: _pImage]; 
     [[_pStatusItem button] setEnabled: true];
     [[_pStatusItem button] setTarget: _pButtonProxy];
     [[_pStatusItem button] setAction: @selector(leftClick:)];
-    [_pStatusItem retain];
+    //[_pStatusItem retain];
     SetIcon(pszIconPath);
     }
 
-    void CTrayIcon::SetIcon(CSCHAR *pszIconPath)
+    void CTrayIcon::SetIcon(const CSCHAR *pszIconPath)
     {
         OBJC_SAFE_RELEASE(_pImage)
         OBJC_SAFE_RELEASE(_pIconPath)
@@ -48,10 +48,13 @@ namespace notification_tray_icon_private
 
     bool CTrayIcon::AddMenuItem(ITrayMenuItem *pTrayMenuItem)
     {
-        if(ITrayIcon::AddMenuItem(pTrayMenu))
+        if(ITrayIcon::AddMenuItem(pTrayMenuItem))
         {
+            if(_pMenu == NULL)
+                _pMenu = [NSMenu alloc];
+            
             [_pStatusItem setMenu: _pMenu];
-            [_pMenu addItem: pTrayMenu->GetNSMenuItem()];
+            [_pMenu addItem: ((CTrayMenuItem*)pTrayMenuItem)->GetNSMenuItem()];
 
             return true;
         }
@@ -59,21 +62,29 @@ namespace notification_tray_icon_private
         return false;
     }
 
-    bool CTrayIcon::RemoveMenuItem(ITrayMenuItem *pTrayMenuItem)
+    bool CTrayIcon::RemoveMenuItem(ITrayMenuItem *pTrayMenuItem, bool recurse)
     {
-        if(IMenuContainer::AddMenuItem(pTrayMenu))
+        if(ITrayIcon::RemoveMenuItem(pTrayMenuItem, recurse))
         {
-            [mpStatusItem setMenu: mpMenu];
-            [mpMenu addItem: pTrayMenu->GetNSMenuItem()];
+            [_pMenu removeItem: ((CTrayMenuItem*)pTrayMenuItem)->GetNSMenuItem()];
 
+            if([_pMenu numberOfItems] == 0)
+                [_pStatusItem setMenu: NULL];
+            
             return true;
         }
         
         return false;
+    }
+
+    void CTrayIcon::OnSelected()
+    {
+        if (_SelectedCallback != NULL)
+            _SelectedCallback(this);
     }
 
     int CTrayIcon::MessageLoop(bool blocking)
     {
-
+        return 0;
     }
 }

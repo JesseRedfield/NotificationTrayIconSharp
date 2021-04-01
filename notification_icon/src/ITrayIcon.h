@@ -18,21 +18,21 @@ namespace notification_tray_icon_private
 
         ~ITrayIcon();
 
-        void OnSelected();
+        bool AddMenuItem(ITrayMenuItem *pTrayMenu);
+
+        bool RemoveMenuItem(ITrayMenuItem *pTrayMenu, bool recurse = false);
 
         void SetSelectedCallback(MenuItemSelectedEventCallback callback);
 
-        virtual void InitializeMenu(CSCHAR *pszIconPath) = 0;
+        virtual void InitializeMenu(const CSCHAR *pszIconPath) = 0;
 
-        virtual void SetIcon(CSCHAR *pszIconPath) = 0;
-
-        virtual bool AddMenuItem(ITrayMenuItem *pTrayMenu) = 0;
-
-        virtual bool RemoveMenuItem(ITrayMenuItem *pTrayMenu) = 0;
+        virtual void SetIcon(const CSCHAR *pszIconPath) = 0;
 
         virtual int MessageLoop(bool blocking) = 0;
 
-    private:
+        virtual void OnSelected() = 0;
+
+    protected:
         MenuItemSelectedEventCallback _SelectedCallback;
     };
 }

@@ -3,7 +3,8 @@
 #include "../common.h"
 #include "../ITrayIcon.h"
 #include "TrayMenuItem.h"
-#import "ButonProxyTarget.hpp"
+#import "ButtonProxy.hpp"
+#import "ButtonProxyTarget.hpp"
 #import <Cocoa/Cocoa.h>
 #import <AppKit/NSMenu.h>
 #import <AppKit/NSImage.h>
@@ -22,15 +23,15 @@ namespace notification_tray_icon_private
 
         ~CTrayIcon();
 
-        void InitializeMenu(CSCHAR *pszIconPath);
+        void InitializeMenu(const CSCHAR *pszIconPath);
 
-        void SetIcon(CSCHAR *pszIconPath);
+        void SetIcon(const CSCHAR *pszIconPath);
 
         bool AddMenuItem(ITrayMenuItem *pTrayMenu);
 
-        bool RemoveMenuItem(ITrayMenuItem *pTrayMenu);
+        bool RemoveMenuItem(ITrayMenuItem *pTrayMenu, bool recurse = false);
 
-        void RebuildMenu();
+        void OnSelected();
 
         int MessageLoop(bool blocking);
 
@@ -38,6 +39,7 @@ namespace notification_tray_icon_private
         NSStatusItem *_pStatusItem;
         NSImage *_pImage;
         NSString *_pIconPath;
+        NSMenu *_pMenu;
         ButtonProxy *_pButtonProxy;
     };
 }
