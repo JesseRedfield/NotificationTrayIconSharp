@@ -1,20 +1,36 @@
 #include "TrayIcon.h"
+#import "ButtonProxy.h"
+#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
+#import <AppKit/NSMenu.h>
+#import <AppKit/NSImage.h>
+#import <AppKit/NSStatusBar.h>
+#import <AppKit/NSStatusBarButton.h>
+#import <AppKit/NSStatusItem.h>
+
+OBJC_INCLUDE_BUTTONPROXY(CTrayIconProxy)
 
 namespace notification_tray_icon_private
 {
+    NSApplication *pApp;
+
     CTrayIcon::CTrayIcon() : ITrayIcon()
     {
+        pApp = [NSApplication sharedApplication];
         _pStatusItem = NULL;
         _pImage = NULL;
         _pIconPath = NULL;
-        _pButtonProxy = [[ButtonProxy alloc] initWithOwner: this];
+        CTrayIconProxy *pButtonProxy = [[CTrayIconProxy alloc] initWithOwner: this];
+        _pButtonProxy = (void*)CFBridgingRetain(pButtonProxy);
     }
 
     CTrayIcon::~CTrayIcon()
     {
-         if(_pStatusItem != NULL)
+        if(_pStatusItem != NULL)
         {
-            [[NSStatusBar systemStatusBar] removeStatusItem: _pStatusItem];
+            NSStatusItem *pStatusItem = (__bridge NSStatusItem*)_pStatusItem;
+            [[NSStatusBar systemStatusBar] removeStatusItem: pStatusItem];
         }
         OBJC_SAFE_RELEASE(_pStatusItem)
         OBJC_SAFE_RELEASE(_pImage)
@@ -23,14 +39,15 @@ namespace notification_tray_icon_private
 
     void CTrayIcon::InitializeMenu(const CSCHAR *pszIconPath)
     {
-    _pStatusItem = [[NSStatusBar systemStatusBar] statusItemWithLength: NSSquareStatusItemLength];
-    
-    [[_pStatusItem button] setImage: _pImage]; 
-    [[_pStatusItem button] setEnabled: true];
-    [[_pStatusItem button] setTarget: _pButtonProxy];
-    [[_pStatusItem button] setAction: @selector(leftClick:)];
-    //[_pStatusItem retain];
-    SetIcon(pszIconPath);
+        NSStatusItem *pStatusItem = [[NSStatusBar systemStatusBar] statusItemWithLength: NSSquareStatusItemLength];
+        CTrayIconProxy *pButtonProxy = (__bridge CTrayIconProxy*)_pButtonProxy;
+            
+        [[pStatusItem button] setEnabled: true];
+        [[pStatusItem button] setTarget: pButtonProxy];
+        [[pStatusItem button] setAction: @selector(leftClick:)];
+        _pStatusItem = (void*)CFBridgingRetain(pStatusItem);
+        
+        SetIcon(pszIconPath);
     }
 
     void CTrayIcon::SetIcon(const CSCHAR *pszIconPath)
@@ -40,21 +57,33 @@ namespace notification_tray_icon_private
 
         if(pszIconPath == NULL) return;
     
-        _pIconPath = [[NSString alloc] initWithCString: pszIconPath encoding: NSUTF8StringEncoding];
-        _pImage = [[NSImage alloc] initWithContentsOfFile: _pIconPath];
+        NSStatusItem *pStatusItem = (__bridge NSStatusItem*)_pStatusItem;
         
-        [[_pStatusItem button] setImage: _pImage];
+        NSString *pIconPath = [[NSString alloc] initWithCString: pszIconPath encoding: NSUTF8StringEncoding];
+        _pIconPath = (void*)CFBridgingRetain(pIconPath);
+        
+        NSImage *pImage = [[NSImage alloc] initWithContentsOfFile: pIconPath];
+        _pImage = (void*)CFBridgingRetain(pImage);
+        
+        [[pStatusItem button] setImage: pImage];
     }
 
     bool CTrayIcon::AddMenuItem(ITrayMenuItem *pTrayMenuItem)
     {
         if(ITrayIcon::AddMenuItem(pTrayMenuItem))
         {
-            if(_pMenu == NULL)
-                _pMenu = [NSMenu alloc];
+            NSMenu *pMenu;
+            NSStatusItem* pStatusItem = (__bridge NSStatusItem*)_pStatusItem;
             
-            [_pStatusItem setMenu: _pMenu];
-            [_pMenu addItem: ((CTrayMenuItem*)pTrayMenuItem)->GetNSMenuItem()];
+            if(_pMenu == NULL)
+                pMenu = [NSMenu alloc];
+            else
+                pMenu = (__bridge NSMenu*)_pMenu;
+            
+            NSMenuItem* pItem = (__bridge NSMenuItem*)((CTrayMenuItem*)pTrayMenuItem)->GetNSMenuItem();
+                        
+            [pStatusItem setMenu: pMenu];
+            [pMenu addItem: pItem];
 
             return true;
         }
@@ -66,10 +95,14 @@ namespace notification_tray_icon_private
     {
         if(ITrayIcon::RemoveMenuItem(pTrayMenuItem, recurse))
         {
-            [_pMenu removeItem: ((CTrayMenuItem*)pTrayMenuItem)->GetNSMenuItem()];
+            NSMenu* pMenu = (__bridge NSMenu*)_pMenu;
+            NSMenuItem* pItem = (__bridge NSMenuItem*)((CTrayMenuItem*)pTrayMenuItem)->GetNSMenuItem();
+            NSStatusItem* pStatusItem = (__bridge NSStatusItem*)_pStatusItem;
+            
+            [pMenu removeItem: pItem];
 
-            if([_pMenu numberOfItems] == 0)
-                [_pStatusItem setMenu: NULL];
+            if([pMenu numberOfItems] == 0)
+                [pStatusItem setMenu: NULL];
             
             return true;
         }
@@ -84,7 +117,14 @@ namespace notification_tray_icon_private
     }
 
     int CTrayIcon::MessageLoop(bool blocking)
-    {
-        return 0;
+    {}
+        NSDate *pUntil = blocking ? [NSDate distantFuture] : [NSDate distantPast];
+        NSString *pRunLoopMode = @"kCFRunLoopDefaultMode";
+        NSEvent *pEvent = [pApp nextEventMatchingMask:ULONG_MAX untilDate:pUntil inMode:pRunLoopMode dequeue:true];
+           
+        if (pEvent) {
+            [pApp sendEvent: pEvent];
+        }
+            return 0;
     }
 }

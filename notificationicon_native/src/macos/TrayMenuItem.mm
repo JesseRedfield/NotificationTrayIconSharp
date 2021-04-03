@@ -1,16 +1,29 @@
 #include "TrayMenuItem.h"
 #include "TrayIcon.h"
+#import  "ButtonProxy.h"
+#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
+#import <AppKit/NSMenu.h>
+#import <AppKit/NSMenuItem.h>
+
+OBJC_INCLUDE_BUTTONPROXY(CTrayMenuItemProxy)
 
 namespace notification_tray_icon_private
 {
-    CTrayMenuItem::CTrayMenuItem(const CSCHAR *pszText) : ITrayMenuItem(pszText)
+     CTrayMenuItem::CTrayMenuItem(const CSCHAR *pszText) : ITrayMenuItem(pszText)
     {
         _pTitle = NULL;
-        _pButtonProxy = [[ButtonProxy alloc] initWithOwner: this];
-        _pMenuItem = [NSMenuItem alloc];
-        [_pMenuItem setEnabled: true];
-        [_pMenuItem setTarget: _pButtonProxy];
-        [_pMenuItem setAction: @selector(leftClick:)];
+        _pMenu = NULL;
+        
+        CTrayMenuItemProxy *pButtonProxy = [[CTrayMenuItemProxy alloc] initWithOwner: this];
+        _pButtonProxy = (void*)CFBridgingRetain(pButtonProxy);
+
+        NSMenuItem* pMenuItem = [NSMenuItem alloc];
+        [pMenuItem setEnabled: true];
+        [pMenuItem setTarget: pButtonProxy];
+        [pMenuItem setAction: @selector(leftClick:)];
+        _pMenuItem = (void*)CFBridgingRetain(pMenuItem);
 
         SetText(pszText);
     }
@@ -26,35 +39,50 @@ namespace notification_tray_icon_private
     {
         OBJC_SAFE_RELEASE(_pTitle)
 
-        if(pszText == NULL)
-            _pTitle = @"";
-        else
-            _pTitle = [[NSString alloc] initWithCString: pszText encoding: NSUTF8StringEncoding];
+        NSMenuItem* pMenuItem = (__bridge NSMenuItem*)_pMenuItem;
         
-        [_pMenuItem setTitle: _pTitle];
+        NSString* pTitle;
+        if(pszText == NULL)
+            pTitle = @"";
+        else
+            pTitle = [[NSString alloc] initWithCString: pszText encoding: NSUTF8StringEncoding];
+        
+        _pTitle = (void*)CFBridgingRetain(pTitle);
+        [pMenuItem setTitle: pTitle];
     }
 
     void CTrayMenuItem::SetChecked(bool checked)
     {
+        NSMenuItem* pMenuItem = (__bridge NSMenuItem*)_pMenuItem;
+        
         ITrayMenuItem::SetChecked(checked);
-        [_pMenuItem setState: checked ? 1 : 0];
+        [pMenuItem setState: checked ? 1 : 0];
     }
 
     void CTrayMenuItem::SetDisabled(bool disabled)
     {
+        NSMenuItem* pMenuItem = (__bridge NSMenuItem*)_pMenuItem;
+        
         ITrayMenuItem::SetDisabled(disabled);
-        [_pMenuItem setEnabled: disabled ? false : true];
+        [pMenuItem setEnabled: disabled ? false : true];
     }
 
     bool CTrayMenuItem::AddMenuItem(CTrayMenuItem *pTrayMenuItem)
     {
         if(ITrayMenuItem::AddMenuItem(pTrayMenuItem))
         {
-            if(_pMenu == NULL)
-                _pMenu = [NSMenu alloc]; 
+            NSMenu *pMenu;
+            NSMenuItem* pMenuItem = (__bridge NSMenuItem*)_pMenuItem;
             
-            [_pMenuItem setSubmenu: _pMenu];
-            [_pMenu addItem: ((CTrayMenuItem*)pTrayMenuItem)->GetNSMenuItem()];
+            if(_pMenu == NULL)
+                pMenu = [NSMenu alloc];
+            else
+                pMenu = (__bridge NSMenu*)_pMenu;
+            
+            NSMenuItem* pItem = (__bridge NSMenuItem*)((CTrayMenuItem*)pTrayMenuItem)->GetNSMenuItem();
+            
+            [pMenuItem setSubmenu: pMenu];
+            [pMenu addItem: pItem];
 
             return true;
         }
@@ -66,10 +94,14 @@ namespace notification_tray_icon_private
     {
         if(ITrayMenuItem::RemoveMenuItem(pTrayMenuItem, recurse))
         {
-            [_pMenu removeItem: ((CTrayMenuItem*)pTrayMenuItem)->GetNSMenuItem()];
+            NSMenu* pMenu = (__bridge NSMenu*)_pMenu;
+            NSMenuItem* pItem = (__bridge NSMenuItem*)((CTrayMenuItem*)pTrayMenuItem)->GetNSMenuItem();
+            NSMenuItem* pMenuItem = (__bridge NSMenuItem*)_pMenuItem;
+            
+            [pMenu removeItem: pItem];
 
-            if([_pMenu numberOfItems] == 0)
-                [_pMenuItem setSubmenu: NULL];
+            if([pMenu numberOfItems] == 0)
+                [pMenuItem setSubmenu: NULL];
             
             return true;
         }
@@ -85,7 +117,7 @@ namespace notification_tray_icon_private
             _SelectedCallback(this);
     }
 
-    NSMenuItem *CTrayMenuItem::GetNSMenuItem()
+    void *CTrayMenuItem::GetNSMenuItem()
     {
         return _pMenuItem;
     }

@@ -2,11 +2,12 @@
 #define __CTray_MENU_ITEM_H__
 #include "../common.h"
 #include "../ITrayMenuItem.h"
-#import "ButtonProxy.hpp"
-#import "ButtonProxyTarget.hpp"
-#import <Cocoa/Cocoa.h>
-#import <AppKit/NSMenu.h>
-#import <AppKit/NSMenuItem.h>
+#include "ButtonProxyTarget.h"
+
+typedef void C_NSString;
+typedef void C_NSMenu;
+typedef void C_NSMenuItem;
+typedef void C_ButtonProxy;
 
 using namespace notification_tray_icon;
 
@@ -33,13 +34,13 @@ namespace notification_tray_icon_private
 
         void OnSelected();
 
-        NSMenuItem *GetNSMenuItem();
+        C_NSMenuItem *GetNSMenuItem();
 
     private:
-        NSString *_pTitle;
-        NSMenu *_pMenu;
-        NSMenuItem *_pMenuItem;
-        ButtonProxy *_pButtonProxy;
+        C_NSString *_pTitle;
+        C_NSMenu *_pMenu;
+        C_NSMenuItem *_pMenuItem;
+        C_ButtonProxy *_pButtonProxy;
     };
 }
 

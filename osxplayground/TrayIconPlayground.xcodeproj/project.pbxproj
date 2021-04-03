@@ -10,9 +10,9 @@
 		AA22D75226163B67003A815E /* IMenuContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA22D74A26163B67003A815E /* IMenuContainer.cpp */; };
 		AA22D75326163B67003A815E /* ITrayIcon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA22D74D26163B67003A815E /* ITrayIcon.cpp */; };
 		AA22D75426163B67003A815E /* ITrayMenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA22D74F26163B67003A815E /* ITrayMenuItem.cpp */; };
-		AA22D75F26163B7C003A815E /* ButtonProxy.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA22D75A26163B7C003A815E /* ButtonProxy.mm */; };
 		AA22D76026163B7C003A815E /* TrayIcon.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA22D75C26163B7C003A815E /* TrayIcon.mm */; };
 		AA22D76126163B7C003A815E /* TrayMenuItem.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA22D75D26163B7C003A815E /* TrayMenuItem.mm */; };
+		AA77DBB02617CDE8006A7DCB /* NotificationTrayIcon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA77DBAF2617CDE8006A7DCB /* NotificationTrayIcon.cpp */; };
 		AAEA18F5260E7A1B003F5BF5 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAEA18F4260E7A1B003F5BF5 /* AppDelegate.mm */; };
 		AAEA18F8260E7A1B003F5BF5 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAEA18F7260E7A1B003F5BF5 /* ViewController.mm */; };
 		AAEA18FA260E7A1B003F5BF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAEA18F9260E7A1B003F5BF5 /* Assets.xcassets */; };
@@ -41,7 +41,6 @@
 
 /* Begin PBXFileReference section */
 		AA22D74A26163B67003A815E /* IMenuContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IMenuContainer.cpp; sourceTree = "<group>"; };
-		AA22D74B26163B67003A815E /* NotificationTrayIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationTrayIcon.h; sourceTree = "<group>"; };
 		AA22D74C26163B67003A815E /* ITrayMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITrayMenuItem.h; sourceTree = "<group>"; };
 		AA22D74D26163B67003A815E /* ITrayIcon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ITrayIcon.cpp; sourceTree = "<group>"; };
 		AA22D74E26163B67003A815E /* ITrayIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITrayIcon.h; sourceTree = "<group>"; };
@@ -49,12 +48,13 @@
 		AA22D75026163B67003A815E /* IMenuContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMenuContainer.h; sourceTree = "<group>"; };
 		AA22D75126163B67003A815E /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		AA22D75826163B7C003A815E /* TrayIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrayIcon.h; path = macos/TrayIcon.h; sourceTree = "<group>"; };
-		AA22D75A26163B7C003A815E /* ButtonProxy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ButtonProxy.mm; path = macos/ButtonProxy.mm; sourceTree = "<group>"; };
 		AA22D75B26163B7C003A815E /* TrayMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrayMenuItem.h; path = macos/TrayMenuItem.h; sourceTree = "<group>"; };
 		AA22D75C26163B7C003A815E /* TrayIcon.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TrayIcon.mm; path = macos/TrayIcon.mm; sourceTree = "<group>"; };
 		AA22D75D26163B7C003A815E /* TrayMenuItem.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TrayMenuItem.mm; path = macos/TrayMenuItem.mm; sourceTree = "<group>"; };
-		AA22D75E26163B7C003A815E /* ButtonProxyTarget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ButtonProxyTarget.hpp; path = macos/ButtonProxyTarget.hpp; sourceTree = "<group>"; };
-		AA22D76826164242003A815E /* ButtonProxy.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ButtonProxy.hpp; path = macos/ButtonProxy.hpp; sourceTree = "<group>"; };
+		AA77DBA92617CCD3006A7DCB /* ButtonProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonProxy.h; path = macos/ButtonProxy.h; sourceTree = "<group>"; };
+		AA77DBAA2617CCD3006A7DCB /* ButtonProxyTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonProxyTarget.h; path = macos/ButtonProxyTarget.h; sourceTree = "<group>"; };
+		AA77DBAE2617CDE8006A7DCB /* NotificationTrayIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationTrayIcon.h; sourceTree = "<group>"; };
+		AA77DBAF2617CDE8006A7DCB /* NotificationTrayIcon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NotificationTrayIcon.cpp; sourceTree = "<group>"; };
 		AAEA18F0260E7A1B003F5BF5 /* TrayIconPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrayIconPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAEA18F3260E7A1B003F5BF5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		AAEA18F4260E7A1B003F5BF5 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -121,9 +121,10 @@
 		AAEA18F2260E7A1B003F5BF5 /* TrayIconPlayground */ = {
 			isa = PBXGroup;
 			children = (
-				AA22D76826164242003A815E /* ButtonProxy.hpp */,
-				AA22D75A26163B7C003A815E /* ButtonProxy.mm */,
-				AA22D75E26163B7C003A815E /* ButtonProxyTarget.hpp */,
+				AA77DBAF2617CDE8006A7DCB /* NotificationTrayIcon.cpp */,
+				AA77DBAE2617CDE8006A7DCB /* NotificationTrayIcon.h */,
+				AA77DBA92617CCD3006A7DCB /* ButtonProxy.h */,
+				AA77DBAA2617CCD3006A7DCB /* ButtonProxyTarget.h */,
 				AA22D75826163B7C003A815E /* TrayIcon.h */,
 				AA22D75C26163B7C003A815E /* TrayIcon.mm */,
 				AA22D75B26163B7C003A815E /* TrayMenuItem.h */,
@@ -135,7 +136,6 @@
 				AA22D74E26163B67003A815E /* ITrayIcon.h */,
 				AA22D74F26163B67003A815E /* ITrayMenuItem.cpp */,
 				AA22D74C26163B67003A815E /* ITrayMenuItem.h */,
-				AA22D74B26163B67003A815E /* NotificationTrayIcon.h */,
 				AAEA18F3260E7A1B003F5BF5 /* AppDelegate.h */,
 				AAEA18F4260E7A1B003F5BF5 /* AppDelegate.mm */,
 				AAEA18FF260E7A1B003F5BF5 /* main.m */,
@@ -298,12 +298,12 @@
 				AA22D75326163B67003A815E /* ITrayIcon.cpp in Sources */,
 				AA22D75426163B67003A815E /* ITrayMenuItem.cpp in Sources */,
 				AA22D75226163B67003A815E /* IMenuContainer.cpp in Sources */,
+				AA77DBB02617CDE8006A7DCB /* NotificationTrayIcon.cpp in Sources */,
 				AAEA18F8260E7A1B003F5BF5 /* ViewController.mm in Sources */,
 				AA22D76126163B7C003A815E /* TrayMenuItem.mm in Sources */,
 				AA22D76026163B7C003A815E /* TrayIcon.mm in Sources */,
 				AAEA1900260E7A1B003F5BF5 /* main.m in Sources */,
 				AAEA18F5260E7A1B003F5BF5 /* AppDelegate.mm in Sources */,
-				AA22D75F26163B7C003A815E /* ButtonProxy.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

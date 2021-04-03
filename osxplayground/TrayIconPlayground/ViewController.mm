@@ -7,6 +7,9 @@
 
 #import "ViewController.h"
 #include "macos/TrayIcon.h"
+#include "NotificationTrayIcon.h"
+
+using namespace notification_tray_icon;
 using namespace notification_tray_icon_private;
 
 static CTrayIcon* pIcon;
@@ -49,7 +52,7 @@ void icon_clicked(void* pParam)
     [super viewDidLoad];
 
     // Do any additional setup after loading the view.
-    pIcon = new CTrayIcon();
+    pIcon = TrayIcon_Create();
     const char* iconPath = "/Users/jesser/dev/SystemTrayIcon/icon.jpg";
     pIcon->InitializeMenu(iconPath);
     pIcon->SetSelectedCallback(icon_clicked);

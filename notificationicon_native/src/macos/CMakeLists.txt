@@ -3,13 +3,13 @@ cmake_minimum_required (VERSION 3.7)
 set(HEADERS ${HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/TrayIcon.h
     ${CMAKE_CURRENT_SOURCE_DIR}/TrayMenuItem.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/ButtonProxy.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ButtonProxy.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/ButtonProxyTarget.h
 PARENT_SCOPE
 )
 
 set(SOURCE ${SOURCE}   
     ${CMAKE_CURRENT_SOURCE_DIR}/TrayIcon.mm
     ${CMAKE_CURRENT_SOURCE_DIR}/TrayMenuItem.mm
-    ${CMAKE_CURRENT_SOURCE_DIR}/ButtonProxy.mm
 PARENT_SCOPE
 )

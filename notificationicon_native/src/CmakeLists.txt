@@ -1,7 +1,6 @@
 #cmake_minimum_required (VERSION 3.7)
 
 set(HEADERS    
-    #NotificationTrayIcon.h
     common.h
     IMenuContainer.h
     ITrayIcon.h
@@ -13,6 +12,7 @@ set(SOURCE
    IMenuContainer.cpp
    ITrayIcon.cpp
    ITrayMenuItem.cpp
+   NotificationTrayIcon.cpp
 )
 
 message(STATUS "BUILD_ROOT=${BUILD_ROOT}")
@@ -20,10 +20,10 @@ message(STATUS "BIN_ROOT=${BIN_ROOT}")
 
 if(WIN32)
     add_subdirectory(windows)
-#elseif(APPLE)
-#    add_subdirectory(macos)
-#elseif(UNIX)
-#    add_subdirectory(linux)
+elseif(APPLE)
+    add_subdirectory(macos)
+elseif(UNIX)
+    add_subdirectory(linux)
 endif()
 
 # set any additional include directories prior to adding the target or the link_directories call simply won't work
