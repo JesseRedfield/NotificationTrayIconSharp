@@ -35,7 +35,8 @@
   <ItemGroup Condition="'$(RuntimeIdentifier)'=='win-x64'">
     <Compile Remove="platforms\**\*.cs" />
     <Compile Include="platforms\windows\**\*.cs" />
-    <Content Include="..\prebuilt\win\x86_64\Release\libnotificationicon.dll">
+    <Content Include="..\prebuilt\win\x64\Release\notificationicon.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <PackagePath>runtimes/win-x64/native</PackagePath>
     </Content>
   </ItemGroup>

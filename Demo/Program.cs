@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
-using AppKit;
 using NotificationIconSharp.Native;
 
 namespace Demo
@@ -8,19 +6,11 @@ namespace Demo
     class Program
     {
         static void Main(string[] args)
-        {
-            //Console.WriteLine("Hello World!");
-            //NSApplication.Main(args);
-            //NSApplication.Main(args);
-
-
-            
+        {           
             IntPtr trayIcon = IntPtr.Zero;
-            //Task.Run(() =>
-            //{
-                trayIcon = Interop.TrayIcon_Create();
-                Interop.TrayIcon_Initialize(trayIcon, "/Users/jesser/dev/NotificationTrayIconSharp/icon.jpg");
-            //});
+
+            trayIcon = Interop.TrayIcon_Create();
+            Interop.TrayIcon_Initialize(trayIcon, @"C:\dev\NotificationTrayIconSharp\icon.ico");
 
             while (true)
             {

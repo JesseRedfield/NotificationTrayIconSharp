@@ -3,6 +3,10 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RuntimeIdentifiers>win-x64;osx-x64;linux-x64;</RuntimeIdentifiers>   
+    <RuntimeIdentifier Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">linux-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">osx-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -15,11 +19,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\NotificationIconSharp\NotificationIconSharp.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Xamarin.Mac">
-      <HintPath>..\..\..\..\..\Library\Frameworks\Xamarin.Mac.framework\Versions\7.8.2.5\lib\reference\mobile\Xamarin.Mac.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Update="libxammac.dylib">
