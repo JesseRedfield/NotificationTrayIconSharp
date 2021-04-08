@@ -32,13 +32,13 @@
     </Content>
   </ItemGroup>
 
-  <!--<ItemGroup Condition="'$(RuntimeIdentifier)'=='win-x64'">
+  <ItemGroup Condition="'$(RuntimeIdentifier)'=='win-x64'">
     <Compile Remove="platforms\**\*.cs" />
     <Compile Include="platforms\windows\**\*.cs" />
-    <Content Include="..\prebuilt\win64\Release\portaudio_x64.dll">
+    <Content Include="..\prebuilt\win\x86_64\Release\libnotificationicon.dll">
       <PackagePath>runtimes/win-x64/native</PackagePath>
     </Content>
-  </ItemGroup>-->
+  </ItemGroup>
 
   <!--<ItemGroup Condition="'$(RuntimeIdentifier)'=='linux-x64'">
     <Compile Remove="platforms\**\*.cs" />
