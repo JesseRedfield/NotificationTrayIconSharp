@@ -4,50 +4,137 @@ using System.Runtime.InteropServices;
 
 namespace NotificationIconSharp.Native
 {
-    public static partial class Interop
+    internal static class Interop
     {
-        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr TrayIcon_Create();
+        private static INativeInterop _impl;
 
-        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TrayIcon_SetSelectedCallback(IntPtr iconHandle, MenuItemSelectedEventCallback menuItemSelectedEventCallback);
+        private static void Initialize()
+        {
+            if (_impl != null) return;
 
-        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool TrayIcon_AddMenuItem(IntPtr iconHandle, IntPtr menuItemHandle);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                _impl = new WinInterop();
+                return;
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                _impl = new OsxInterop();
+                return;
+            }
 
-        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool TrayIcon_RemoveMenuItem(IntPtr iconHandle, IntPtr menuItemHandle);
+            //Not currently implemented
+            throw new PlatformNotSupportedException();
+        }
 
-        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int TrayIcon_PumpMessageLoop(IntPtr iconHandle, bool blocking);
+        public static IntPtr TrayIconCreate()
+        {
+            Initialize();
+            return _impl.TrayIconCreate();
+        }
 
-        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TrayIcon_Destroy(IntPtr iconHandle);
+        public static void TrayIconInitialize(IntPtr iconHandle, string iconPath)
+        {
+            Initialize();
+            _impl.TrayIconInitialize(iconHandle, iconPath);
+        }
 
-        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TrayMenuItem_SetSelectedCallback(IntPtr menuItemHandle, MenuItemSelectedEventCallback menuItemSelectedEventCallback);
+        public static void TrayIconSetTrayIcon(IntPtr iconHandle, string iconPath)
+        {
+            Initialize();
+            _impl.TrayIconSetTrayIcon(iconHandle, iconPath);
+        }
 
-        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool TrayMenuItem_AddMenuItem(IntPtr targetMenuItemHandle, IntPtr itemToAddHandle);
+        public static void TrayIconSetSelectedCallback(IntPtr iconHandle, MenuItemSelectedEventCallback menuItemSelectedEventCallback)
+        {
+            Initialize();
+            _impl.TrayIconSetSelectedCallback(iconHandle, menuItemSelectedEventCallback);
+        }
 
-        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool TrayMenuItem_RemoveMenuItem(IntPtr targetMenuItemHandle, IntPtr itemToAddHandle);
+        public static bool TrayIconAddMenuItem(IntPtr iconHandle, IntPtr menuItemHandle)
+        {
+            Initialize();
+            return _impl.TrayIconAddMenuItem(iconHandle, menuItemHandle);
+        }
 
-        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool TrayMenuItem_GetDisabled(IntPtr menuItemHandle);
+        public static bool TrayIconRemoveMenuItem(IntPtr iconHandle, IntPtr menuItemHandle)
+        {
+            Initialize();
+            return _impl.TrayIconRemoveMenuItem(iconHandle, menuItemHandle);
+        }
 
-        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TrayMenuItem_SetDisabled(IntPtr menuItemHandle);
+        public static int TrayIconPumpMessageLoop(IntPtr iconHandle, bool blocking)
+        {
+            Initialize();
+            return _impl.TrayIconPumpMessageLoop(iconHandle, blocking);
+        }
 
-        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool TrayMenuItem_GetChecked(IntPtr menuItemHandle);
+        public static void TrayIconDestroy(IntPtr iconHandle)
+        {
+            Initialize();
+            _impl.TrayIconDestroy(iconHandle);
+        }
 
-        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TrayMenuItem_SetChecked(IntPtr menuItemHandle);
+        public static IntPtr TrayMenuItemCreate(string text)
+        {
+            Initialize();
+            return _impl.TrayMenuItemCreate(text);
+        }
 
-        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TrayMenuItem_Destroy(IntPtr menuItemHandle);
+        public static void TrayMenuItemSetText(IntPtr menuItemHandle, string text)
+        {
+            Initialize();
+            _impl.TrayMenuItemSetText(menuItemHandle, text);
+        }
 
-        public delegate void MenuItemSelectedEventCallback(IntPtr pMenuItem);
+        public static void TrayMenuItemSetSelectedCallback(IntPtr menuItemHandle, MenuItemSelectedEventCallback menuItemSelectedEventCallback)
+        {
+            Initialize();
+            _impl.TrayMenuItemSetSelectedCallback(menuItemHandle, menuItemSelectedEventCallback);
+
+        }
+
+        public static bool TrayMenuItemAddMenuItem(IntPtr targetMenuItemHandle, IntPtr itemToAddHandle)
+        {
+            Initialize();
+            return _impl.TrayMenuItemAddMenuItem(targetMenuItemHandle, itemToAddHandle);
+        }
+
+        public static bool TrayMenuItemRemoveMenuItem(IntPtr targetMenuItemHandle, IntPtr itemToAddHandle)
+        {
+            Initialize();
+            return _impl.TrayMenuItemRemoveMenuItem(targetMenuItemHandle, itemToAddHandle);
+
+        }
+
+        public static bool TrayMenuItemGetDisabled(IntPtr menuItemHandle)
+        {
+            Initialize();
+            return _impl.TrayMenuItemGetDisabled(menuItemHandle);
+        }
+
+        public static void TrayMenuItemSetDisabled(IntPtr menuItemHandle, bool bDisabled)
+        {
+            Initialize();
+            _impl.TrayMenuItemSetDisabled(menuItemHandle, bDisabled);
+        }
+
+        public static bool TrayMenuItemGetChecked(IntPtr menuItemHandle)
+        {
+            Initialize();
+            return _impl.TrayMenuItemGetChecked(menuItemHandle);
+        }
+
+        public static void TrayMenuItemSetChecked(IntPtr menuItemHandle, bool bChecked)
+        {
+            Initialize();
+            _impl.TrayMenuItemSetChecked(menuItemHandle, bChecked);
+        }
+
+        public static void TrayMenuItemDestroy(IntPtr menuItemHandle)
+        {
+            Initialize();
+            _impl.TrayMenuItemDestroy(menuItemHandle);
+        }
     }
 }

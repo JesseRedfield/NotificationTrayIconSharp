@@ -6,45 +6,18 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RuntimeIdentifiers>win-x64;osx-x64;linux-x64;</RuntimeIdentifiers>   
-    <RuntimeIdentifier Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">win-x64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">linux-x64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">osx-x64</RuntimeIdentifier>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(RuntimeIdentifier)'=='win-x64'">
-    <DefineConstants>WINDOWS</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(RuntimeIdentifier)'=='linux-x64'">
-    <DefineConstants>LINUX</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(RuntimeIdentifier)'=='osx-x64'">
-    <DefineConstants>OSX</DefineConstants>
-  </PropertyGroup>
-
-  <ItemGroup Condition="'$(RuntimeIdentifier)'=='osx-x64'">
-    <Compile Remove="platforms\**\*.cs" />
-    <Compile Include="platforms\osx\**\*.cs" />
-    <Content Include="..\prebuilt\osx\x86_64\Release\libnotificationicon.dylib">
+  <ItemGroup>
+    <!--<Content Include="..\prebuilt\osx\x86_64\Release\libnotificationicon.dylib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <PackagePath>runtimes/osx-x64/native</PackagePath>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(RuntimeIdentifier)'=='win-x64'">
-    <Compile Remove="platforms\**\*.cs" />
-    <Compile Include="platforms\windows\**\*.cs" />
+    </Content>-->
     <Content Include="..\prebuilt\win\x64\Release\notificationicon.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <PackagePath>runtimes/win-x64/native</PackagePath>
     </Content>
   </ItemGroup>
-
-  <!--<ItemGroup Condition="'$(RuntimeIdentifier)'=='linux-x64'">
-    <Compile Remove="platforms\**\*.cs" />
-    <Compile Include="platforms\linux\**\*.cs" />
-  </ItemGroup>-->
 
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>

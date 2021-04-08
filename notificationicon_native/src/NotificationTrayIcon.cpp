@@ -27,7 +27,7 @@ namespace notification_tray_icon
         pTrayIcon->InitializeMenu(pszTrayIconPath);
     }
 
-    void TrayIcon_SetIcon(CTrayIcon *pTrayIcon, CSCHAR *pszTrayIconPath)
+    void TrayIcon_SetTrayIcon(CTrayIcon *pTrayIcon, const CSCHAR *pszTrayIconPath)
     {
         if (pTrayIcon == NULL)
             return;
@@ -73,12 +73,12 @@ namespace notification_tray_icon
             delete pTrayIcon;
     }
 
-    CTrayMenuItem *TrayMenuItem_Create(CSCHAR *pszText)
+    CTrayMenuItem *TrayMenuItem_Create(const CSCHAR *pszText)
     {
         return new CTrayMenuItem(pszText);
     }
 
-    void TrayMenuItem_SetText(CTrayMenuItem *pTrayMenuItem, CSCHAR *pszText)
+    void TrayMenuItem_SetText(CTrayMenuItem *pTrayMenuItem, const CSCHAR *pszText)
     {
         if (pTrayMenuItem == NULL)
             return;
@@ -139,7 +139,7 @@ namespace notification_tray_icon
         if (pTrayMenuItem == NULL)
             return;
 
-        pTrayMenuItem->GetChecked();
+        pTrayMenuItem->SetChecked(checked);
     }
 
     void TrayMenuItem_Destroy(CTrayMenuItem *pTrayMenuItem)

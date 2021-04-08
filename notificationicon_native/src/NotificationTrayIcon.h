@@ -26,18 +26,18 @@ extern "C"
     {
         EXPORT CTrayIcon *TrayIcon_Create();
         EXPORT void TrayIcon_Initialize(CTrayIcon *pTrayIcon, const CSCHAR *pszTrayIconPath);
-        EXPORT void TrayIcon_SetTrayIcon(CTrayIcon *pTrayIcon, CSCHAR *pszTrayIconPath);
+        EXPORT void TrayIcon_SetTrayIcon(CTrayIcon *pTrayIcon, const CSCHAR *pszTrayIconPath);
         EXPORT void TrayIcon_SetSelectedCallback(CTrayIcon *pTrayIcon, MenuItemSelectedEventCallback menuItemSelectedEventCallback);
-        EXPORT bool TrayIcon_AddMenuItem(CTrayIcon *pTrayIcon);
-        EXPORT bool TrayIcon_RemoveMenuItem(CTrayIcon *pTrayIcon, bool recurse = false);
+        EXPORT bool TrayIcon_AddMenuItem(CTrayIcon *pTrayIcon, CTrayMenuItem *pMenuItem);
+        EXPORT bool TrayIcon_RemoveMenuItem(CTrayIcon *pTrayIcon, CTrayMenuItem *pMenuItem, bool recurse = false);
         EXPORT int TrayIcon_PumpMessageLoop(CTrayIcon *pTrayIcon, bool bBlocking);
         EXPORT void TrayIcon_Destroy(CTrayIcon *pTrayIcon);
 
-        EXPORT CTrayMenuItem *TrayMenuItem_Create(CSCHAR *pszText);
-        EXPORT void TrayMenuItem_SetText(CTrayMenuItem pTrayMenuItem, CSCHAR *pszText);
+        EXPORT CTrayMenuItem *TrayMenuItem_Create(const CSCHAR *pszText);
+        EXPORT void TrayMenuItem_SetText(CTrayMenuItem *pTrayMenuItem, const CSCHAR *pszText);
         EXPORT void TrayMenuItem_SetSelectedCallback(CTrayMenuItem *pTrayMenuItem, MenuItemSelectedEventCallback menuItemSelectedEventCallback);
         EXPORT bool TrayMenuItem_AddMenuItem(CTrayMenuItem *pTargetMenuItem, CTrayMenuItem *pMenuItemToAdd);
-        EXPORT bool TrayMenuItem_RemoveMenuItem(CTrayMenuItem *pTargetMenuItem, CTrayMenuItem *pMenuItemToRemove, bool recurse);
+        EXPORT bool TrayMenuItem_RemoveMenuItem(CTrayMenuItem *pTargetMenuItem, CTrayMenuItem *pMenuItemToRemove, bool recurse = false);
         EXPORT bool TrayMenuItem_GetDisabled(CTrayMenuItem *pTrayMenuItem);
         EXPORT void TrayMenuItem_SetDisabled(CTrayMenuItem *pTrayMenuItem, bool disabled);
         EXPORT bool TrayMenuItem_GetChecked(CTrayMenuItem *pTrayMenuItem);

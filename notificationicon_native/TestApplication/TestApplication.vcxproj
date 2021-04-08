@@ -140,12 +140,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\IMenuContainer.cpp" />
+    <ClCompile Include="..\src\ITrayIcon.cpp" />
+    <ClCompile Include="..\src\ITrayMenuItem.cpp" />
+    <ClCompile Include="..\src\NotificationTrayIcon.cpp" />
+    <ClCompile Include="..\src\windows\TrayIcon.cpp" />
+    <ClCompile Include="..\src\windows\TrayMenuItem.cpp" />
     <ClCompile Include="TestApplication.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\_build\src\notificationicon.vcxproj">
-      <Project>{3da2cad9-45d2-3788-8a0d-7fdc29fc6fba}</Project>
-    </ProjectReference>
+    <ClInclude Include="..\src\common.h" />
+    <ClInclude Include="..\src\IMenuContainer.h" />
+    <ClInclude Include="..\src\ITrayIcon.h" />
+    <ClInclude Include="..\src\ITrayMenuItem.h" />
+    <ClInclude Include="..\src\NotificationTrayIcon.h" />
+    <ClInclude Include="..\src\windows\TrayIcon.h" />
+    <ClInclude Include="..\src\windows\TrayMenuItem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
