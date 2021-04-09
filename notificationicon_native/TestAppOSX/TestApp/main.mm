@@ -101,7 +101,9 @@ void icon_clicked(void *pParam)
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         mpTrayIcon = TrayIcon_Create();
-        TrayIcon_Initialize((CTrayIcon *)mpTrayIcon, "szIcon");
+        
+        //SET AN ICON PATH HERE PNG/JPG on OSX
+        TrayIcon_Initialize((CTrayIcon *)mpTrayIcon, "/your/icon/path");
         TrayIcon_SetSelectedCallback((CTrayIcon *)mpTrayIcon, (MenuItemSelectedEventCallback)&icon_clicked);
         
         while (true)

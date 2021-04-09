@@ -5,10 +5,13 @@ namespace Demo
 {
     class Program
     {
+        //SET AN ICON PATH HERE, BMP/ICO on WINDOWS, PNG/JPG on OSX
+        const string icon_path = "PATH/TO/YOUR/ICON";
+
         static bool destroy = false;
         static void Main(string[] args)
         {           
-            var trayIcon = new NotificationIcon(@"C:\dev\NotificationTrayIconSharp\icon.ico");
+            var trayIcon = new NotificationIcon(icon_path);
             trayIcon.NotificationIconSelected += TrayIcon_NotificationIconSelected;
 
             while (true)
