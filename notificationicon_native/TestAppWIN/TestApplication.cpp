@@ -2,8 +2,6 @@
 //
 
 #include <iostream>
-#define OS_WINDOWS
-
 #include "..\src\NotificationTrayIcon.h"
 
 using namespace notification_tray_icon_private;
