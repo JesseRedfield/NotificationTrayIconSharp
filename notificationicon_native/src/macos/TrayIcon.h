@@ -24,9 +24,9 @@ namespace notification_tray_icon_private
 
         void SetIcon(const CSCHAR *pszIconPath);
 
-        bool AddMenuItem(ITrayMenuItem *pTrayMenu);
+        virtual bool AddMenuItem(ITrayMenuItem *pTrayMenu);
 
-        bool RemoveMenuItem(ITrayMenuItem *pTrayMenu, bool recurse = false);
+        virtual bool RemoveMenuItem(ITrayMenuItem *pTrayMenu, bool recurse = false);
 
         void OnSelected();
 

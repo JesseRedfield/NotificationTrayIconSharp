@@ -69,7 +69,7 @@ namespace notification_tray_icon
 
     void TrayIcon_Destroy(CTrayIcon *pTrayIcon)
     {
-        if (pTrayIcon == NULL)
+        if (pTrayIcon != NULL)
             delete pTrayIcon;
     }
 

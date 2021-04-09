@@ -28,7 +28,8 @@
 #define OBJC_SAFE_RELEASE(pPtr)         \
     {                                   \
         if (pPtr != NULL)               \
-            CFRelease((CFTypeRef)pPtr); \
+            CFRelease(pPtr);            \
+        pPtr = NULL;                    \
     }
 #endif
 

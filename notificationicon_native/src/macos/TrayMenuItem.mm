@@ -31,6 +31,7 @@ namespace notification_tray_icon_private
     CTrayMenuItem::~CTrayMenuItem()
     {
         OBJC_SAFE_RELEASE(_pTitle)
+        OBJC_SAFE_RELEASE(_pMenu)
         OBJC_SAFE_RELEASE(_pMenuItem)
         OBJC_SAFE_RELEASE(_pButtonProxy)
     }
@@ -67,7 +68,7 @@ namespace notification_tray_icon_private
         [pMenuItem setEnabled: disabled ? false : true];
     }
 
-    bool CTrayMenuItem::AddMenuItem(CTrayMenuItem *pTrayMenuItem)
+    bool CTrayMenuItem::AddMenuItem(ITrayMenuItem *pTrayMenuItem)
     {
         if(ITrayMenuItem::AddMenuItem(pTrayMenuItem))
         {
@@ -75,10 +76,15 @@ namespace notification_tray_icon_private
             NSMenuItem* pMenuItem = (__bridge NSMenuItem*)_pMenuItem;
             
             if(_pMenu == NULL)
+            {
                 pMenu = [NSMenu alloc];
+                _pMenu = (void*)CFBridgingRetain(pMenu);
+            }
             else
+            {
                 pMenu = (__bridge NSMenu*)_pMenu;
-            
+            }
+
             NSMenuItem* pItem = (__bridge NSMenuItem*)((CTrayMenuItem*)pTrayMenuItem)->GetNSMenuItem();
             
             [pMenuItem setSubmenu: pMenu];
@@ -90,20 +96,28 @@ namespace notification_tray_icon_private
         return false;
     }
 
-    bool CTrayMenuItem::RemoveMenuItem(CTrayMenuItem *pTrayMenuItem, bool recurse)
+    bool CTrayMenuItem::RemoveMenuItem(ITrayMenuItem *pTrayMenuItem, bool recurse)
     {
-        if(ITrayMenuItem::RemoveMenuItem(pTrayMenuItem, recurse))
+        if(ITrayMenuItem::RemoveMenuItem(pTrayMenuItem, false))
         {
-            NSMenu* pMenu = (__bridge NSMenu*)_pMenu;
             NSMenuItem* pItem = (__bridge NSMenuItem*)((CTrayMenuItem*)pTrayMenuItem)->GetNSMenuItem();
             NSMenuItem* pMenuItem = (__bridge NSMenuItem*)_pMenuItem;
             
-            [pMenu removeItem: pItem];
+            if(_pMenu != NULL) 
+            {
+                NSMenu* pMenu = (__bridge NSMenu*)_pMenu;
+                [pMenu removeItem: pItem];
 
-            if([pMenu numberOfItems] == 0)
-                [pMenuItem setSubmenu: NULL];
-            
+                if([pMenu numberOfItems] == 0)
+                    [pMenuItem setSubmenu: NULL];
+            }
+
             return true;
+        }
+        
+        if(recurse)
+        {
+            return ITrayMenuItem::RemoveMenuItem(pTrayMenuItem, true);
         }
         
         return false;

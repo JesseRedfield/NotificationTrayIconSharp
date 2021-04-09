@@ -18,11 +18,11 @@ namespace notification_tray_icon_private
 
         ~ITrayIcon();
 
-        bool AddMenuItem(ITrayMenuItem *pTrayMenu);
-
-        bool RemoveMenuItem(ITrayMenuItem *pTrayMenu, bool recurse = false);
-
         void SetSelectedCallback(MenuItemSelectedEventCallback callback);
+        
+        virtual bool AddMenuItem(ITrayMenuItem *pTrayMenu);
+
+        virtual bool RemoveMenuItem(ITrayMenuItem *pTrayMenu, bool recurse = false);
 
         virtual void InitializeMenu(const CSCHAR *pszIconPath) = 0;
 

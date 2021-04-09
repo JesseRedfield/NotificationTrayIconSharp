@@ -28,9 +28,9 @@ namespace notification_tray_icon_private
 
         void SetChecked(bool checked);
 
-        bool AddMenuItem(CTrayMenuItem *pTrayMenuItem);
+        bool AddMenuItem(ITrayMenuItem *pTrayMenuItem);
 
-        bool RemoveMenuItem(CTrayMenuItem *pTrayMenuItem, bool recurse = false);
+        bool RemoveMenuItem(ITrayMenuItem *pTrayMenuItem, bool recurse = false);
 
         void OnSelected();
 

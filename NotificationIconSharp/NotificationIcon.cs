@@ -9,7 +9,7 @@ namespace NotificationIconSharp
 
     public class NotificationIcon : IDisposable
     {
-        private bool _disposedValue;
+        private bool _disposedValue = false;
         private IntPtr _iconPtr = IntPtr.Zero;
 
         public event NotificationIconSelectedCallback NotificationIconSelected;
@@ -70,6 +70,7 @@ namespace NotificationIconSharp
                 if (disposing)
                 {
                     MenuItems = null;
+                    NotificationIconSelected = null;
                 }
 
                 if(_iconPtr != IntPtr.Zero)

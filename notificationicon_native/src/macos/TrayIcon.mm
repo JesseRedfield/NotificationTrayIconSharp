@@ -18,6 +18,7 @@ namespace notification_tray_icon_private
     CTrayIcon::CTrayIcon() : ITrayIcon()
     {
         pApp = [NSApplication sharedApplication];
+        _pMenu = NULL;
         _pStatusItem = NULL;
         _pImage = NULL;
         _pIconPath = NULL;
@@ -32,6 +33,7 @@ namespace notification_tray_icon_private
             NSStatusItem *pStatusItem = (__bridge NSStatusItem*)_pStatusItem;
             [[NSStatusBar systemStatusBar] removeStatusItem: pStatusItem];
         }
+        OBJC_SAFE_RELEASE(_pMenu)
         OBJC_SAFE_RELEASE(_pStatusItem)
         OBJC_SAFE_RELEASE(_pImage)
         OBJC_SAFE_RELEASE(_pIconPath)
@@ -72,13 +74,18 @@ namespace notification_tray_icon_private
     {
         if(ITrayIcon::AddMenuItem(pTrayMenuItem))
         {
-            NSMenu *pMenu;
+            NSMenu *pMenu = NULL;
             NSStatusItem* pStatusItem = (__bridge NSStatusItem*)_pStatusItem;
             
             if(_pMenu == NULL)
+            {
                 pMenu = [NSMenu alloc];
+                _pMenu = (void*)CFBridgingRetain(pMenu);
+            }
             else
+            {
                 pMenu = (__bridge NSMenu*)_pMenu;
+            }
             
             NSMenuItem* pItem = (__bridge NSMenuItem*)((CTrayMenuItem*)pTrayMenuItem)->GetNSMenuItem();
                         
@@ -93,18 +100,26 @@ namespace notification_tray_icon_private
 
     bool CTrayIcon::RemoveMenuItem(ITrayMenuItem *pTrayMenuItem, bool recurse)
     {
-        if(ITrayIcon::RemoveMenuItem(pTrayMenuItem, recurse))
+        if(ITrayIcon::RemoveMenuItem(pTrayMenuItem, false))
         {
-            NSMenu* pMenu = (__bridge NSMenu*)_pMenu;
             NSMenuItem* pItem = (__bridge NSMenuItem*)((CTrayMenuItem*)pTrayMenuItem)->GetNSMenuItem();
             NSStatusItem* pStatusItem = (__bridge NSStatusItem*)_pStatusItem;
             
-            [pMenu removeItem: pItem];
+            if(_pMenu != NULL)
+            {
+                NSMenu* pMenu = (__bridge NSMenu*)_pMenu;
+                [pMenu removeItem: pItem];
 
-            if([pMenu numberOfItems] == 0)
-                [pStatusItem setMenu: NULL];
+                if([pMenu numberOfItems] == 0)
+                    [pStatusItem setMenu: NULL];
+            }
             
             return true;
+        }
+        
+        if(recurse)
+        {
+            return ITrayIcon::RemoveMenuItem(pTrayMenuItem, true);
         }
         
         return false;
@@ -117,14 +132,18 @@ namespace notification_tray_icon_private
     }
 
     int CTrayIcon::MessageLoop(bool blocking)
-    {}
+    {
+        @autoreleasepool {
+            
+        
         NSDate *pUntil = blocking ? [NSDate distantFuture] : [NSDate distantPast];
         NSString *pRunLoopMode = @"kCFRunLoopDefaultMode";
         NSEvent *pEvent = [pApp nextEventMatchingMask:ULONG_MAX untilDate:pUntil inMode:pRunLoopMode dequeue:true];
-           
+        
         if (pEvent) {
             [pApp sendEvent: pEvent];
         }
             return 0;
+        }
     }
 }

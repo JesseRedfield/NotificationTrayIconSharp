@@ -85,7 +85,7 @@ namespace NotificationIconSharp
         {
             if (_menuPtr == IntPtr.Zero) return false;
 
-            if (TrayMenuItemAddMenuItem(_menuPtr, IntPtr.Zero))
+            if (TrayMenuItemAddMenuItem(_menuPtr, menuItem.GetHandle()))
             {
                 MenuItems.Add(menuItem);
                 return true;
@@ -119,6 +119,7 @@ namespace NotificationIconSharp
                 if (disposing)
                 {
                     MenuItems = null;
+                    NotificationMenuItemSelected = null;
                 }
 
                 if (_menuPtr != IntPtr.Zero)

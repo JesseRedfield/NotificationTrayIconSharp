@@ -28,8 +28,6 @@ namespace Demo
             if (icon.MenuItems.Count > 0) return;
 
             var checkMenuItem = new NotificationMenuItem("Set Check On Clicked");
-            checkMenuItem.Disabled = false;
-            checkMenuItem.Checked = false;
             checkMenuItem.NotificationMenuItemSelected += CheckMenuItem_NotificationMenuItemSelected;
 
             var disableMenuItem = new NotificationMenuItem("Disable On Clicked");
