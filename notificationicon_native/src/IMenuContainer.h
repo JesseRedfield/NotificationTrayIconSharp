@@ -14,14 +14,14 @@ namespace notification_tray_icon_private
 
         ~IMenuContainer();
 
-        bool AddMenuItem(ITrayMenuItem *pTrayMenuItem);
-
-        bool HasMenuItem(ITrayMenuItem *pTrayMenuItem);
-
-        bool RemoveMenuItem(ITrayMenuItem *pTrayMenuItem, bool recurse = false);
-
         static uint32_t GenerateId();
-
+        
+        bool HasMenuItem(ITrayMenuItem *pTrayMenuItem);
+        
+        virtual bool AddMenuItem(ITrayMenuItem *pTrayMenuItem);
+        
+        virtual bool RemoveMenuItem(ITrayMenuItem *pTrayMenuItem, bool recurse = false);
+        
     protected:
         std::map<uint32_t, ITrayMenuItem *> _MenuItems;
 

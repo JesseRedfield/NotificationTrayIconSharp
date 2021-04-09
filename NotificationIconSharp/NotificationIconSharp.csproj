@@ -1,0 +1,29 @@
+<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+    <AssemblyName>NotificationIconSharp</AssemblyName>
+    <RootNamespace>NotificationIconSharp</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RuntimeIdentifiers>win-x86;win-x64;osx-x64;osx.11.0-arm64;linux-x64;</RuntimeIdentifiers>   
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\prebuilt\osx\x86_64\Release\libnotificationicon.dylib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <PackagePath>runtimes/osx-x64/native</PackagePath>
+    </Content>
+   <Content Include="..\prebuilt\osx\arm64\Release\libnotificationicon.dylib">
+      <PackagePath>runtimes/osx.11.0-arm64/native</PackagePath>
+    </Content>
+    <Content Include="..\prebuilt\win\x64\Release\notificationicon.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+    </Content>
+    <Content Include="..\prebuilt\win\x86\Release\notificationicon.dll">
+      <PackagePath>runtimes/win-x86/native</PackagePath>
+    </Content>
+  </ItemGroup>
+
+  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+</Project>

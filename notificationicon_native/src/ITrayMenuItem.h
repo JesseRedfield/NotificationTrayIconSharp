@@ -20,23 +20,23 @@ namespace notification_tray_icon_private
 
         void SetOwner(ITrayIcon *pOwner);
 
+        void SetSelectedCallback(MenuItemSelectedEventCallback callback);
+        
         virtual void SetText(const CSCHAR *pszText) = 0;
 
-        bool GetDisabled();
+        virtual bool GetDisabled();
 
-        void SetDisabled(bool disabled);
+        virtual void SetDisabled(bool disabled);
 
-        bool GetChecked();
+        virtual bool GetChecked();
 
-        void SetChecked(bool checked);
+        virtual void SetChecked(bool checked);
 
-        bool AddMenuItem(ITrayMenuItem *pTrayMenuItem);
+        virtual bool AddMenuItem(ITrayMenuItem *pTrayMenuItem);
 
-        bool RemoveMenuItem(ITrayMenuItem *pTrayMenuItem, bool recurse = false);
+        virtual bool RemoveMenuItem(ITrayMenuItem *pTrayMenuItem, bool recurse = false);
 
         virtual void OnSelected() = 0;
-
-        void SetSelectedCallback(MenuItemSelectedEventCallback callback);
 
     protected:
         bool _bDisabled;

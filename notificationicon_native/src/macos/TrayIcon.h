@@ -3,14 +3,11 @@
 #include "../common.h"
 #include "../ITrayIcon.h"
 #include "TrayMenuItem.h"
-#import "ButtonProxy.hpp"
-#import "ButtonProxyTarget.hpp"
-#import <Cocoa/Cocoa.h>
-#import <AppKit/NSMenu.h>
-#import <AppKit/NSImage.h>
-#import <AppKit/NSStatusBar.h>
-#import <AppKit/NSStatusBarButton.h>
-#import <AppKit/NSStatusItem.h>
+#include "ButtonProxyTarget.h"
+
+typedef void C_NSStatusItem;
+typedef void C_NSImage;
+typedef void C_ButtonProxy;
 
 using namespace notification_tray_icon;
 
@@ -27,20 +24,20 @@ namespace notification_tray_icon_private
 
         void SetIcon(const CSCHAR *pszIconPath);
 
-        bool AddMenuItem(ITrayMenuItem *pTrayMenu);
+        virtual bool AddMenuItem(ITrayMenuItem *pTrayMenu);
 
-        bool RemoveMenuItem(ITrayMenuItem *pTrayMenu, bool recurse = false);
+        virtual bool RemoveMenuItem(ITrayMenuItem *pTrayMenu, bool recurse = false);
 
         void OnSelected();
 
         int MessageLoop(bool blocking);
 
     private:
-        NSStatusItem *_pStatusItem;
-        NSImage *_pImage;
-        NSString *_pIconPath;
-        NSMenu *_pMenu;
-        ButtonProxy *_pButtonProxy;
+        C_NSStatusItem *_pStatusItem;
+        C_NSImage *_pImage;
+        C_NSString *_pIconPath;
+        C_NSMenu *_pMenu;
+        C_ButtonProxy *_pButtonProxy;
     };
 }
 

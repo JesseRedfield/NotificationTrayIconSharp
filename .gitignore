@@ -8,6 +8,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.vscode
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -334,7 +335,6 @@ ASALocalRun/
 .DS_Store
 *.swp
 *~.nib
-
 *.pbxuser
 *.perspective
 *.perspectivev3

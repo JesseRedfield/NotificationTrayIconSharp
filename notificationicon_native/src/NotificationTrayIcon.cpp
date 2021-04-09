@@ -27,7 +27,7 @@ namespace notification_tray_icon
         pTrayIcon->InitializeMenu(pszTrayIconPath);
     }
 
-    void TrayIcon_SetIcon(CTrayIcon *pTrayIcon, CSCHAR *pszTrayIconPath)
+    void TrayIcon_SetTrayIcon(CTrayIcon *pTrayIcon, const CSCHAR *pszTrayIconPath)
     {
         if (pTrayIcon == NULL)
             return;
@@ -54,7 +54,7 @@ namespace notification_tray_icon
     bool TrayIcon_RemoveMenuItem(CTrayIcon *pTrayIcon, CTrayMenuItem *pTrayMenuItem, bool recurse)
     {
         if (pTrayIcon == NULL)
-            return;
+            return false;
 
         return pTrayIcon->RemoveMenuItem(pTrayMenuItem, recurse);
     }
@@ -62,23 +62,23 @@ namespace notification_tray_icon
     int TrayIcon_PumpMessageLoop(CTrayIcon *pTrayIcon, bool bBlocking)
     {
         if (pTrayIcon == NULL)
-            return;
+            return -1;
 
         return pTrayIcon->MessageLoop(bBlocking);
     }
 
     void TrayIcon_Destroy(CTrayIcon *pTrayIcon)
     {
-        if (pTrayIcon == NULL)
+        if (pTrayIcon != NULL)
             delete pTrayIcon;
     }
 
-    CTrayMenuItem TrayMenuItem_Create(CCHAR *pszText)
+    CTrayMenuItem *TrayMenuItem_Create(const CSCHAR *pszText)
     {
         return new CTrayMenuItem(pszText);
     }
 
-    void TrayMenuItem_SetText(CTrayMenuItem *pTrayMenuItem, CSCHAR *pszText)
+    void TrayMenuItem_SetText(CTrayMenuItem *pTrayMenuItem, const CSCHAR *pszText)
     {
         if (pTrayMenuItem == NULL)
             return;
@@ -113,7 +113,7 @@ namespace notification_tray_icon
     bool TrayMenuItem_GetDisabled(CTrayMenuItem *pTrayMenuItem)
     {
         if (pTrayMenuItem == NULL)
-            return;
+            return false;
 
         return pTrayMenuItem->GetDisabled();
     }
@@ -123,13 +123,13 @@ namespace notification_tray_icon
         if (pTrayMenuItem == NULL)
             return;
 
-        pTrayMenuItem->SetDisabled();
+        pTrayMenuItem->SetDisabled(disabled);
     }
 
     bool TrayMenuItem_GetChecked(CTrayMenuItem *pTrayMenuItem)
     {
         if (pTrayMenuItem == NULL)
-            return;
+            return false;
 
         return pTrayMenuItem->GetChecked();
     }
@@ -139,7 +139,7 @@ namespace notification_tray_icon
         if (pTrayMenuItem == NULL)
             return;
 
-        pTrayMenuItem->GetChecked();
+        pTrayMenuItem->SetChecked(checked);
     }
 
     void TrayMenuItem_Destroy(CTrayMenuItem *pTrayMenuItem)

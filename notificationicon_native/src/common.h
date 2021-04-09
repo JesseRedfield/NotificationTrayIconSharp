@@ -11,10 +11,6 @@
         pPtr = NULL;      \
     }
 
-#ifndef OS_WINDOWS
-#define OS_WINDOWS
-#endif
-
 #ifdef OS_WINDOWS
 #define EXPORT __declspec(dllexport)
 // CSharp Character Declaration, for windows we send LPWStr to avoid marshalling UTF-16
@@ -29,19 +25,12 @@
 #define CSSTRLEN strlen
 #define CSSTRCPY(dst, src, size) strcpy(dst, src)
 
-#if !__has_feature(objc_arc)
-#define OBJC_SAFE_RELEASE(pPtr) \
-    {                           \
-        if (pPtr != NULL)       \
-            [pPtr release];     \
-        pPtr = NULL;            \
+#define OBJC_SAFE_RELEASE(pPtr)         \
+    {                                   \
+        if (pPtr != NULL)               \
+            CFRelease(pPtr);            \
+        pPtr = NULL;                    \
     }
-#else
-#define OBJC_SAFE_RELEASE(pPtr) \
-    {                           \
-        pPtr = NULL;            \
-    }
-#endif
 #endif
 
 namespace notification_tray_icon
