@@ -20,7 +20,21 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <PackagePath>runtimes/win-x64/native</PackagePath>
     </Content>
+    <Content Include="..\redist\win-x64\Release\msvcp110.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+    </Content>
+    <Content Include="..\prebuilt\win-x64\Release\msvcr110.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+    </Content>
     <Content Include="..\prebuilt\win\x86\Release\notificationicon.dll">
+      <PackagePath>runtimes/win-x86/native</PackagePath>
+    </Content>
+    <Content Include="..\redist\win-x86\Release\msvcp110.dll">
+      <PackagePath>runtimes/win-x86/native</PackagePath>
+    </Content>
+    <Content Include="..\prebuilt\win-x86\Release\msvcr110.dll">
       <PackagePath>runtimes/win-x86/native</PackagePath>
     </Content>
   </ItemGroup>
