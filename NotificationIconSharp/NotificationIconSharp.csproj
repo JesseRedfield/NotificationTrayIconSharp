@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <AssemblyName>NotificationIconSharp</AssemblyName>
     <RootNamespace>NotificationIconSharp</RootNamespace>
@@ -16,25 +16,11 @@
    <Content Include="..\prebuilt\osx\arm64\Release\libnotificationicon.dylib">
       <PackagePath>runtimes/osx.11.0-arm64/native</PackagePath>
     </Content>
-    <Content Include="..\prebuilt\win\x64\Release\notificationicon.dll">
+    <Content Include="..\prebuilt\win\x64\Release\*.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <PackagePath>runtimes/win-x64/native</PackagePath>
     </Content>
-    <Content Include="..\redist\win-x64\msvcp110.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <PackagePath>runtimes/win-x64/native</PackagePath>
-    </Content>
-    <Content Include="..\redist\win-x64\msvcr110.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <PackagePath>runtimes/win-x64/native</PackagePath>
-    </Content>
-    <Content Include="..\prebuilt\win\x86\Release\notificationicon.dll">
-      <PackagePath>runtimes/win-x86/native</PackagePath>
-    </Content>
-    <Content Include="..\redist\win-x86\msvcp110.dll">
-      <PackagePath>runtimes/win-x86/native</PackagePath>
-    </Content>
-    <Content Include="..\redist\win-x86\msvcr110.dll">
+    <Content Include="..\prebuilt\win\x86\Release\*.dll">
       <PackagePath>runtimes/win-x86/native</PackagePath>
     </Content>
   </ItemGroup>

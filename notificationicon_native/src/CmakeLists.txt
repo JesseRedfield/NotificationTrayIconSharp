@@ -46,7 +46,8 @@ endif()
 
 # setup link depends
 if(WIN32)
-    # we only link against microsoft SDKs all good 
+    set_target_properties(notificationicon 
+                      PROPERTIES VS_GLOBAL_CopyCppRuntimeToOutputDir true)
 elseif(APPLE)
     find_library(COCOA_LIBRARY Cocoa)
     target_link_libraries(notificationicon ${COCOA_LIBRARY})
