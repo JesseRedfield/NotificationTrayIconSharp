@@ -2,7 +2,7 @@
 
 :: Setup DevEnvDir
 if not defined DevEnvDir (
-    call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Auxiliary\Build\vcvarsall.bat" x64
+    call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build\vcvarsall.bat" x64
 )
 
 :: Setup paths to project paths X64
@@ -40,7 +40,6 @@ pushd "%BUILD_X86%"
 cmake ..\..\..\ ^
 -G "Visual Studio 16 2019" ^
 -A Win32 ^
--Tv110 ^
 -DBUILD_ROOT="%BUILD_X86%" ^
 -DBIN_ROOT="%BIN_X86%"
 popd
@@ -50,7 +49,6 @@ pushd "%BUILD_X64%"
 cmake ..\..\..\ ^
 -G "Visual Studio 16 2019" ^
 -A x64 ^
--Tv110 ^
 -DBUILD_ROOT="%BUILD_X64%" ^
 -DBIN_ROOT="%BIN_X64%"
 popd
