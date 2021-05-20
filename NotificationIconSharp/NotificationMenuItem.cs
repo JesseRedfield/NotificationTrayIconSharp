@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NotificationIconSharp.Native;
 using static NotificationIconSharp.Native.Interop;
 
 namespace NotificationIconSharp
@@ -13,7 +14,7 @@ namespace NotificationIconSharp
         private IntPtr _menuPtr = IntPtr.Zero;
 
         public event NotificationMenuItemCallback NotificationMenuItemSelected;
-
+        private MenuItemSelectedEventCallback _callbackDelegate = null;
         public List<NotificationMenuItem> MenuItems = new List<NotificationMenuItem>();
 
         public NotificationMenuItem(string text)
@@ -21,8 +22,8 @@ namespace NotificationIconSharp
             _menuPtr = TrayMenuItemCreate(text);
             if (_menuPtr == IntPtr.Zero) return;
             _text = text;
-
-            TrayMenuItemSetSelectedCallback(_menuPtr, HandleMenuItemSelected);
+            _callbackDelegate = HandleMenuItemSelected;
+            TrayMenuItemSetSelectedCallback(_menuPtr, _callbackDelegate);
         }
 
         private void HandleMenuItemSelected(IntPtr itemPtr)
