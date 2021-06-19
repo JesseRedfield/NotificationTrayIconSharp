@@ -4,7 +4,7 @@
 #include "common.h"
 #include <stdlib.h>
 
-#ifdef OS_WINDOWS
+#ifdef OS_WIN32
 #define EXPORT __declspec(dllexport)
 #else
 #define EXPORT
@@ -43,6 +43,10 @@ extern "C"
         EXPORT bool TrayMenuItem_GetChecked(CTrayMenuItem *pTrayMenuItem);
         EXPORT void TrayMenuItem_SetChecked(CTrayMenuItem *pTrayMenuItem, bool checked);
         EXPORT void TrayMenuItem_Destroy(CTrayMenuItem *pTrayIcon);
+
+        EXPORT void Toast_Initialize(const CSCHAR *pszAppId, const CSCHAR *pszDisplayName, const CSCHAR *pszIconPath);
+        EXPORT void Toast_SendNotification(const CSCHAR *title, const CSCHAR *text, const CSCHAR *pszNotificationId);
+        EXPORT void Toast_UnInitialize();
     }
 #ifdef __cplusplus
 }

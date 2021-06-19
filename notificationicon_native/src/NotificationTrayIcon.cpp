@@ -1,12 +1,14 @@
 #include "NotificationTrayIcon.h"
 
-#ifdef OS_WINDOWS
+#ifdef OS_WIN32
 #include "windows/TrayMenuItem.h"
 #include "windows/TrayIcon.h"
+#include "windows/Toast.h"
 #endif
 #ifdef OS_OSX
 #include "macos/TrayMenuItem.h"
 #include "macos/TrayIcon.h"
+#include "macos/Toast.h"
 #endif
 
 using namespace notification_tray_icon_private;
@@ -146,5 +148,20 @@ namespace notification_tray_icon
     {
         if (pTrayMenuItem != NULL)
             delete pTrayMenuItem;
+    }
+
+    EXPORT void Toast_Initialize(const CSCHAR *pszAppId, const CSCHAR *pszDisplayName, const CSCHAR *pszIconPath)
+    {
+        Toast::Initialize(pszAppId, pszDisplayName, pszIconPath);
+    }
+
+    EXPORT void Toast_SendNotification(const CSCHAR *title, const CSCHAR *text, const CSCHAR *pszNotificationId)
+    {
+        Toast::SendNotification(title, text, pszNotificationId);
+    }
+
+    EXPORT void Toast_UnInitialize()
+    {
+        Toast::UnInitialize();
     }
 }

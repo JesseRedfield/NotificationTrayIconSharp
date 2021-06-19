@@ -136,5 +136,23 @@ namespace NotificationIconSharp.Native
             Initialize();
             _impl.TrayMenuItemDestroy(menuItemHandle);
         }
+
+        public static void ToastInitialize(string appId, string displayName, string iconPath)
+        {
+            Initialize();
+            _impl.ToastInitialize(appId, displayName, iconPath);
+        }
+
+        public static void ToastSendNotification(string title, string text, string id)
+        {
+            Initialize();
+            _impl.ToastSendNotification(title, text, id);
+        }
+
+        public static void ToastUnInitialize()
+        {
+            Initialize();
+            _impl.ToastUnInitialize();
+        }
     }
 }

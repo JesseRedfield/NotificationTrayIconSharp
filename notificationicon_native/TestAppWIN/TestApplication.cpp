@@ -1,6 +1,8 @@
 #include <iostream>
-#include "..\src\NotificationTrayIcon.h"
+#define OS_WIN32
 
+#include "..\src\NotificationTrayIcon.h"
+#include "..\src\common.h"
 using namespace notification_tray_icon_private;
 using namespace notification_tray_icon;
 
@@ -116,6 +118,12 @@ int main()
     const wchar_t *szIcon = icon.c_str();
     TrayIcon_Initialize((notification_tray_icon_private::CTrayIcon *)mpTrayIcon, szIcon);
     TrayIcon_SetSelectedCallback((notification_tray_icon_private::CTrayIcon *)mpTrayIcon, (MenuItemSelectedEventCallback)&icon_clicked);
+
+    Toast_Initialize(L"ExampleAppId", L"My Example App", NULL);
+
+   Toast_SendNotification(L"Hello", L"World", L"APP ID");
+
+   Toast_UnInitialize();
 
     while (true)
     {

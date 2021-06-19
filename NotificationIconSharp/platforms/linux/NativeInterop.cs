@@ -95,6 +95,22 @@ namespace NotificationIconSharp.Native
         {
             TrayMenuItem_Destroy(menuItemHandle);
         }
+
+        public void ToastInitialize(string appId, string displayName, string iconPath)
+        {
+            Toast_Initialize(appId, displayName, iconPath);
+        }
+
+        public void ToastSendNotification(string title, string text, string id)
+        {
+            Toast_SendNotification(title, text, id);
+        }
+
+        public void ToastUnInitialize()
+        {
+            Toast_UnInitialize();
+        }
+
         [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         private static extern void TrayIcon_Initialize(IntPtr iconHandle, [MarshalAs(UnmanagedType.LPStr)] string iconPath);
 
@@ -154,5 +170,14 @@ namespace NotificationIconSharp.Native
 
         [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         private static extern void TrayMenuItem_Destroy(IntPtr menuItemHandle);
+
+        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Toast_Initialize([MarshalAs(UnmanagedType.LPStr)] string appId, [MarshalAs(UnmanagedType.LPStr)] string displayName, [MarshalAs(UnmanagedType.LPStr)] string iconPath);
+
+        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Toast_SendNotification([MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string text, [MarshalAs(UnmanagedType.LPStr)] string id);
+
+        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Toast_UnInitialize();
     }
 }

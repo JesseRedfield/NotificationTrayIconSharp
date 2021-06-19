@@ -11,7 +11,7 @@
         pPtr = NULL;      \
     }
 
-#ifdef OS_WINDOWS
+#ifdef OS_WIN32
 #define EXPORT __declspec(dllexport)
 // CSharp Character Declaration, for windows we send LPWStr to avoid marshalling UTF-16
 #define CSCHAR wchar_t

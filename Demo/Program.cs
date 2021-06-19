@@ -10,7 +10,9 @@ namespace Demo
 
         static bool destroy = false;
         static void Main(string[] args)
-        {           
+        {
+            NotificationManager.Initialize("com.tobii.test", "Tobii Test");
+            NotificationManager.SendNotification("My New Notification", "Isn't This Handy", "ActionId");
             var trayIcon = new NotificationIcon(icon_path);
             trayIcon.NotificationIconSelected += TrayIcon_NotificationIconSelected;
 

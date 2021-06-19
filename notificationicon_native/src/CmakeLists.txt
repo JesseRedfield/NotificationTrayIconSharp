@@ -47,7 +47,12 @@ endif()
 # setup link depends
 if(WIN32)
     set_target_properties(notificationicon 
-                      PROPERTIES VS_GLOBAL_CopyCppRuntimeToOutputDir true)
+        PROPERTIES VS_GLOBAL_CopyCppRuntimeToOutputDir true
+        CXX_STANDARD 17)
+
+    exec_program(${NUGET}/../nuget.exe
+        ARGS install "Microsoft.Windows.CppWinRT" -Version 2.0.201008.2 -ExcludeVersion -OutputDirectory ${CMAKE_BINARY_DIR}/packages)
+    target_link_libraries(notificationicon PRIVATE ${CMAKE_BINARY_DIR}/packages/Microsoft.Windows.CppWinRT.2.0.201008.2/build/native/Microsoft.Windows.CppWinRT.targets)
 elseif(APPLE)
     find_library(COCOA_LIBRARY Cocoa)
     target_link_libraries(notificationicon ${COCOA_LIBRARY})
