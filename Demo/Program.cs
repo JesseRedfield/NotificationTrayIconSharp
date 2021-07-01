@@ -16,7 +16,7 @@ namespace Demo
 
             while (true)
             {
-                trayIcon?.DoMessageLoop(false);
+                trayIcon?.DoMessageLoop(true);
 
                 if(destroy)
                 {
