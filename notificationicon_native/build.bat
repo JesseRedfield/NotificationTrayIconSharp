@@ -6,6 +6,7 @@ if not defined DevEnvDir (
 )
 
 :: Setup paths to project paths X64
+set "SOURCE=%~dp0"
 set "BUILD_ROOT=%~dp0\_build\win"
 set "BUILD_X64=%BUILD_ROOT%\x64"
 if EXIST "%BUILD_X64%" rmdir /s /q "%BUILD_X64%"
@@ -37,18 +38,20 @@ md "%BIN_PREBUILD%"
 
 :: Generate x86 build files
 pushd "%BUILD_X86%"
-cmake ..\..\..\ ^
+cmake %SOURCE% ^
 -G "Visual Studio 16 2019" ^
 -A Win32 ^
+-DNUGET="%SOURCE%/nuget.exe" ^
 -DBUILD_ROOT="%BUILD_X86%" ^
 -DBIN_ROOT="%BIN_X86%"
 popd
 
 :: Generate x64 build files
 pushd "%BUILD_X64%"
-cmake ..\..\..\ ^
+cmake %SOURCE% ^
 -G "Visual Studio 16 2019" ^
 -A x64 ^
+-DNUGET="%SOURCE%/nuget.exe" ^
 -DBUILD_ROOT="%BUILD_X64%" ^
 -DBIN_ROOT="%BIN_X64%"
 popd

@@ -95,6 +95,35 @@ namespace NotificationIconSharp.Native
         {
             TrayMenuItem_Destroy(menuItemHandle);
         }
+
+        public void ToastInitialize(string appId, string displayName, string iconPath)
+        {
+            Toast_Initialize(appId, displayName, iconPath);
+
+            _callbackDelegate = OsxInterop_notificationCallbackEvent;
+            Toast_SetSelectedCallback(_callbackDelegate);
+        }
+
+        public event NotificationSelectedEventCallback NotificationIconSelectedEvent;
+
+        private void OsxInterop_notificationCallbackEvent([MarshalAs(UnmanagedType.LPStr)] string notificationId)
+        {
+            NotificationIconSelectedEvent?.Invoke(notificationId);
+        }
+
+        public void ToastSendNotification(string title, string text, string id, string contentImage = null)
+        {
+            Toast_SendNotification(title, text, id, contentImage);
+        }
+
+        public void ToastUnInitialize()
+        {
+            Toast_UnInitialize();
+        }
+
+        private static Toast_NotificationSelectedEventCallback _callbackDelegate = null;
+        internal delegate void Toast_NotificationSelectedEventCallback([MarshalAs(UnmanagedType.LPStr)] string pMenuItem);
+
         [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         private static extern void TrayIcon_Initialize(IntPtr iconHandle, [MarshalAs(UnmanagedType.LPStr)] string iconPath);
 
@@ -154,5 +183,17 @@ namespace NotificationIconSharp.Native
 
         [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         private static extern void TrayMenuItem_Destroy(IntPtr menuItemHandle);
+
+        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Toast_Initialize([MarshalAs(UnmanagedType.LPStr)] string appId, [MarshalAs(UnmanagedType.LPStr)] string displayName, [MarshalAs(UnmanagedType.LPStr)] string iconPath);
+
+        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Toast_SendNotification([MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string text, [MarshalAs(UnmanagedType.LPStr)] string id, [MarshalAs(UnmanagedType.LPStr)] string iconPath);
+
+        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Toast_SetSelectedCallback(Toast_NotificationSelectedEventCallback notificationSelectedCallback);
+
+        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Toast_UnInitialize();
     }
 }

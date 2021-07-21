@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#define OS_OSX
+
 //referenced pointer safe release macros
 #define SAFE_DELETE(pPtr) \
     {                     \
@@ -11,7 +13,7 @@
         pPtr = NULL;      \
     }
 
-#ifdef OS_WINDOWS
+#ifdef OS_WIN32
 #define EXPORT __declspec(dllexport)
 // CSharp Character Declaration, for windows we send LPWStr to avoid marshalling UTF-16
 #define CSCHAR wchar_t
@@ -36,6 +38,7 @@
 namespace notification_tray_icon
 {
     typedef void(__stdcall *MenuItemSelectedEventCallback)(void *pMenuItem);
+    typedef void(__stdcall *NotificationSelectedEventCallback)(const CSCHAR *pNotificationId);
 }
 
 #endif // __COMMON_H__

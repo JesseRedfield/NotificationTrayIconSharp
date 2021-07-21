@@ -1,5 +1,9 @@
 #include <iostream>
+#define OS_WIN32
+
+#include <windows.h>
 #include "..\src\NotificationTrayIcon.h"
+#include "..\src\common.h"
 
 using namespace notification_tray_icon_private;
 using namespace notification_tray_icon;
@@ -106,16 +110,33 @@ void __stdcall icon_clicked(void *pParam)
     TrayIcon_AddMenuItem((CTrayIcon *)mpTrayIcon, (CTrayMenuItem *)pMenuItem2);
 }
 
+void __stdcall notification_clicked(const CSCHAR* pStr)
+{
+    std::wcout << pStr;
+}
+
 int main()
 {
     std::cout << "Hello World!\n";
     mpTrayIcon = TrayIcon_Create();
 
     //SET AN ICON PATH HERE PNG/JPG on OSX
-    std::wstring icon(L"C:\\PATH\\TO\\YOUR\\ICON");
-    const wchar_t *szIcon = icon.c_str();
+    std::wstring icon(L"C:\\dev\\icon.png"); std::wstring notiicon(L"C:\\dev\\icon.png");
+    const wchar_t* szIcon = icon.c_str(); const wchar_t* szNotiIcon = notiicon.c_str();
+
     TrayIcon_Initialize((notification_tray_icon_private::CTrayIcon *)mpTrayIcon, szIcon);
     TrayIcon_SetSelectedCallback((notification_tray_icon_private::CTrayIcon *)mpTrayIcon, (MenuItemSelectedEventCallback)&icon_clicked);
+
+    Toast_Initialize(L"ExampleAppId2", L"My Example App", szIcon);
+    Toast_SetSelectedCallback(notification_clicked);
+
+   Toast_SendNotification(L"Hello", L"World", L"APP ID", szNotiIcon);
+
+   Toast_SendNotification(L"", L"No title empty string", L"APP ID", szNotiIcon);
+
+   Toast_SendNotification(NULL, L"No title NULL string", L"APP ID", szNotiIcon);
+
+   Toast_UnInitialize();
 
     while (true)
     {

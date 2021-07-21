@@ -97,6 +97,34 @@ namespace NotificationIconSharp.Native
             TrayMenuItem_Destroy(menuItemHandle);
         }
 
+        public void ToastInitialize(string appId, string displayName, string iconPath)
+        {
+            Toast_Initialize(appId, displayName, iconPath);
+
+            _callbackDelegate = WinInterop_notificationCallbackEvent;
+            Toast_SetSelectedCallback(_callbackDelegate);
+        }
+
+        public void ToastSendNotification(string title, string text, string id, string contentImage = null)
+        {
+            Toast_SendNotification(title, text, id, contentImage);
+        }
+
+        public event NotificationSelectedEventCallback NotificationIconSelectedEvent;
+
+        private void WinInterop_notificationCallbackEvent([MarshalAs(UnmanagedType.LPWStr)] string notificationId)
+        {
+            NotificationIconSelectedEvent?.Invoke(notificationId);
+        }
+
+        public void ToastUnInitialize()
+        {
+            Toast_UnInitialize();
+        }
+
+        private static Toast_NotificationSelectedEventCallback _callbackDelegate = null;
+        internal delegate void Toast_NotificationSelectedEventCallback([MarshalAs(UnmanagedType.LPWStr)] string pMenuItem);
+
         [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         private static extern void TrayIcon_Initialize(IntPtr iconHandle, [MarshalAs(UnmanagedType.LPWStr)] string iconPath);
 
@@ -145,7 +173,7 @@ namespace NotificationIconSharp.Native
         private static extern bool TrayMenuItem_GetDisabled(IntPtr menuItemHandle);
 
         [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void TrayMenuItem_SetDisabled(IntPtr menuItemHandle, [ MarshalAs(UnmanagedType.I1)] bool bDisabled);
+        private static extern void TrayMenuItem_SetDisabled(IntPtr menuItemHandle, [MarshalAs(UnmanagedType.I1)] bool bDisabled);
 
         [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
@@ -157,6 +185,16 @@ namespace NotificationIconSharp.Native
         [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         private static extern void TrayMenuItem_Destroy(IntPtr menuItemHandle);
 
+        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Toast_Initialize([MarshalAs(UnmanagedType.LPWStr)] string appId, [MarshalAs(UnmanagedType.LPWStr)] string displayName, [MarshalAs(UnmanagedType.LPWStr)] string iconPath);
 
+        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Toast_SendNotification([MarshalAs(UnmanagedType.LPWStr)] string title, [MarshalAs(UnmanagedType.LPWStr)] string text, [MarshalAs(UnmanagedType.LPWStr)] string id, [MarshalAs(UnmanagedType.LPWStr)] string iconPath);
+
+        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Toast_SetSelectedCallback(Toast_NotificationSelectedEventCallback notificationSelectedCallback);
+
+        [DllImport(NATIVE_LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Toast_UnInitialize();
     }
 }

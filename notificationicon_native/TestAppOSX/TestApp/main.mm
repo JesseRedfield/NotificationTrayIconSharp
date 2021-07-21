@@ -102,9 +102,17 @@ int main(int argc, const char * argv[]) {
     @autoreleasepool {
         mpTrayIcon = TrayIcon_Create();
         
-        //SET AN ICON PATH HERE PNG/JPG on OSX
-        TrayIcon_Initialize((CTrayIcon *)mpTrayIcon, "/your/icon/path");
+        //SET AN ICON PATH HERE PNG/JPG on OSX PNG/JPG/ICO Windows
+        TrayIcon_Initialize((CTrayIcon *)mpTrayIcon, "/PATH/TO/YOUR/ICON.png");
         TrayIcon_SetSelectedCallback((CTrayIcon *)mpTrayIcon, (MenuItemSelectedEventCallback)&icon_clicked);
+        
+        Toast_Initialize("ExampleAppId", "My Example App", "/PATH/TO/YOUR/ICON.png");
+
+        Toast_SendNotification("Hello", "World", "APP ID 1212", "/PATH/TO/YOUR/ICON.png");
+
+        Toast_SendNotification("", "No title empty string", "APP ID 324", "/PATH/TO/YOUR/ICON.png");
+
+        Toast_SendNotification(NULL, "No title NULL string", "APP ID 345", "/PATH/TO/YOUR/ICON.png");
         
         while (true)
         {
