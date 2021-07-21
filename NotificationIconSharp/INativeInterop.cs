@@ -8,6 +8,8 @@ namespace NotificationIconSharp.Native
 
     internal interface INativeInterop
     {
+        event NotificationSelectedEventCallback NotificationIconSelectedEvent;
+
         IntPtr TrayIconCreate();
 
         void TrayIconInitialize(IntPtr iconHandle, string iconPath);
@@ -46,9 +48,8 @@ namespace NotificationIconSharp.Native
 
         void ToastInitialize(string appId, string displayName, string iconPath);
 
-        void ToastSendNotification(string title, string text, string id);
+        void ToastSendNotification(string title, string text, string id, string contentImage = null);
 
         void ToastUnInitialize();
-
     }
 }

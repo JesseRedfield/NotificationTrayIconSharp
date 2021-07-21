@@ -7,7 +7,6 @@
 #pragma mark - Swizzle NSBundle
 
 NSString *bundleIdentifier = nil; 
-bool bInitialized = false;
 
 @implementation NSBundle(swizle)
 
@@ -57,8 +56,7 @@ BOOL installNSBundleHook()
         return;
     }
 
-    notification_tray_icon_private::Toast::HandleCallback(notification);
-    //TODO HANDLE ACTION [self ActionCallback]([notification.identifier intValue]);
+    notification_tray_icon_private::Toast::HandleCallback((void*)CFBridgingRetain(notification));
 }
 
 @end
@@ -66,22 +64,29 @@ BOOL installNSBundleHook()
 #pragma mark -
 namespace notification_tray_icon_private
 {
-    NotificationCenterDelegate *_notificationCenterDelegate;
+    bool Toast::Initialized = false;
+    NotificationCenterDelegate *notificationCenterDelegate;
+
+    NotificationSelectedEventCallback Toast::NotificationSelectedCallback = NULL;
 
     void Toast::Initialize(const CSCHAR *pszAppId, const CSCHAR *pszDisplayName, const CSCHAR *pszIconPath)
     {
-        @autoreleasepool {
-            bInitialized = installNSBundleHook();
-            _notificationCenterDelegate = [NotificationCenterDelegate new];
+        if(Toast::Initialized) return;
 
+        @autoreleasepool {
             bundleIdentifier = pszAppId != NULL ? [[NSString alloc] initWithCString: pszAppId encoding: NSUTF8StringEncoding] : @"";
 
+            Toast::Initialized = installNSBundleHook();
+            notificationCenterDelegate = [NotificationCenterDelegate new];
+
             NSUserNotificationCenter* notificationCenter = [NSUserNotificationCenter defaultUserNotificationCenter];
-            notificationCenter.delegate = _notificationCenterDelegate;
+            notificationCenter.delegate = notificationCenterDelegate;
         }
     }
 
     void Toast::SendNotification(const CSCHAR *pszTitle, const CSCHAR *pszText, const CSCHAR *pszNotificationId, const CSCHAR *pszIconPath) {
+        if(!Toast::Initialized) return;
+
         [NSBundle mainBundle];
         NSUserNotificationCenter* notificationCenter = [NSUserNotificationCenter defaultUserNotificationCenter];
 
@@ -89,11 +94,38 @@ namespace notification_tray_icon_private
         cocoaNotification.identifier = pszNotificationId != NULL ? [[NSString alloc] initWithCString: pszNotificationId encoding: NSUTF8StringEncoding] : @"";;
         cocoaNotification.title = pszTitle != NULL ? [[NSString alloc] initWithCString: pszTitle encoding: NSUTF8StringEncoding] : @"";
         cocoaNotification.informativeText = pszText != NULL ? [[NSString alloc] initWithCString: pszText encoding: NSUTF8StringEncoding] : @"";
+        if(pszIconPath != NULL)
+        {
+            NSString* imagePath = [[NSString alloc] initWithCString: pszIconPath encoding: NSUTF8StringEncoding];
+            NSImage* image = [[NSImage alloc]initWithContentsOfFile: imagePath];
+            cocoaNotification.contentImage = image;
+        }
+
         [notificationCenter deliverNotification:cocoaNotification];
+    }
+
+    void Toast::SetSelectedCallback(NotificationSelectedEventCallback callback)
+    {
+        Toast::NotificationSelectedCallback = callback;
     }
 
     void Toast::HandleCallback(C_NSUserNotification *pUserNotification)
     {
-        //TODO HANDLE CALLBACK
+        NSUserNotification* cocoaNotification = (__bridge NSUserNotification*)pUserNotification;
+        const CSCHAR* identifier = [[cocoaNotification identifier] cStringUsingEncoding:NSUTF8StringEncoding];
+        
+        if (Toast::NotificationSelectedCallback != NULL)
+            Toast::NotificationSelectedCallback(identifier);
+    }
+
+    void Toast::UnInitialize()
+    {
+        if(Toast::Initialized)
+        {
+            NSUserNotificationCenter* notificationCenter = [NSUserNotificationCenter defaultUserNotificationCenter];
+            notificationCenter.delegate = NULL;
+            Toast::Initialized = false;
+            Toast::NotificationSelectedCallback = NULL;
+        }
     }
 }

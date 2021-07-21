@@ -15,6 +15,7 @@
 		AA33845F261FA0BA0081301C /* TrayMenuItem.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA338459261FA0BA0081301C /* TrayMenuItem.mm */; };
 		AA338460261FA0BA0081301C /* TrayIcon.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA33845D261FA0BA0081301C /* TrayIcon.mm */; };
 		AA338464261FA16B0081301C /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA338463261FA16B0081301C /* AppKit.framework */; };
+		AA39613F2696C76400544634 /* Toast.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA39613D2696C76400544634 /* Toast.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,6 +49,8 @@
 		AA33845D261FA0BA0081301C /* TrayIcon.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TrayIcon.mm; path = ../../src/macos/TrayIcon.mm; sourceTree = "<group>"; };
 		AA33845E261FA0BA0081301C /* TrayMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrayMenuItem.h; path = ../../src/macos/TrayMenuItem.h; sourceTree = "<group>"; };
 		AA338463261FA16B0081301C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		AA39613D2696C76400544634 /* Toast.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Toast.mm; path = ../../src/macos/Toast.mm; sourceTree = "<group>"; };
+		AA39613E2696C76400544634 /* Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Toast.h; path = ../../src/macos/Toast.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +85,8 @@
 		AA338442261FA07E0081301C /* TestApp */ = {
 			isa = PBXGroup;
 			children = (
+				AA39613E2696C76400544634 /* Toast.h */,
+				AA39613D2696C76400544634 /* Toast.mm */,
 				AA33845B261FA0BA0081301C /* ButtonProxy.h */,
 				AA33845A261FA0BA0081301C /* ButtonProxyTarget.h */,
 				AA33845C261FA0BA0081301C /* TrayIcon.h */,
@@ -169,6 +174,7 @@
 				AA338457261FA0A20081301C /* ITrayIcon.cpp in Sources */,
 				AA338460261FA0BA0081301C /* TrayIcon.mm in Sources */,
 				AA33845F261FA0BA0081301C /* TrayMenuItem.mm in Sources */,
+				AA39613F2696C76400544634 /* Toast.mm in Sources */,
 				AA338456261FA0A20081301C /* IMenuContainer.cpp in Sources */,
 				AA338455261FA0A20081301C /* NotificationTrayIcon.cpp in Sources */,
 				AA338444261FA07E0081301C /* main.mm in Sources */,

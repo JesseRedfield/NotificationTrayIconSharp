@@ -143,10 +143,16 @@ namespace NotificationIconSharp.Native
             _impl.ToastInitialize(appId, displayName, iconPath);
         }
 
-        public static void ToastSendNotification(string title, string text, string id)
+        public static event NotificationSelectedEventCallback NotificationIconSelectedEvent
+        {
+            add { _impl.NotificationIconSelectedEvent += value; }
+            remove { _impl.NotificationIconSelectedEvent -= value; }
+        }
+
+        public static void ToastSendNotification(string title, string text, string id, string contentImage)
         {
             Initialize();
-            _impl.ToastSendNotification(title, text, id);
+            _impl.ToastSendNotification(title, text, id, contentImage);
         }
 
         public static void ToastUnInitialize()

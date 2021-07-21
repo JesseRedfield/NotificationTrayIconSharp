@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#define OS_OSX
+
 //referenced pointer safe release macros
 #define SAFE_DELETE(pPtr) \
     {                     \
@@ -36,6 +38,7 @@
 namespace notification_tray_icon
 {
     typedef void(__stdcall *MenuItemSelectedEventCallback)(void *pMenuItem);
+    typedef void(__stdcall *NotificationSelectedEventCallback)(const CSCHAR *pNotificationId);
 }
 
 #endif // __COMMON_H__

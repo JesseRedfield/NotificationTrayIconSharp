@@ -45,7 +45,8 @@ extern "C"
         EXPORT void TrayMenuItem_Destroy(CTrayMenuItem *pTrayIcon);
 
         EXPORT void Toast_Initialize(const CSCHAR *pszAppId, const CSCHAR *pszDisplayName, const CSCHAR *pszIconPath);
-        EXPORT void Toast_SendNotification(const CSCHAR *title, const CSCHAR *text, const CSCHAR *pszNotificationId);
+        EXPORT void Toast_SendNotification(const CSCHAR *title, const CSCHAR *text, const CSCHAR *pszNotificationId, const CSCHAR* pszIconPath = NULL);
+        EXPORT void Toast_SetSelectedCallback(NotificationSelectedEventCallback callback);
         EXPORT void Toast_UnInitialize();
     }
 #ifdef __cplusplus

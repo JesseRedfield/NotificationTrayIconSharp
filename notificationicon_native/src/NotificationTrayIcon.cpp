@@ -155,11 +155,15 @@ namespace notification_tray_icon
         Toast::Initialize(pszAppId, pszDisplayName, pszIconPath);
     }
 
-    EXPORT void Toast_SendNotification(const CSCHAR *title, const CSCHAR *text, const CSCHAR *pszNotificationId)
+    EXPORT void Toast_SendNotification(const CSCHAR *title, const CSCHAR *text, const CSCHAR *pszNotificationId, const CSCHAR* pszIconPath)
     {
-        Toast::SendNotification(title, text, pszNotificationId);
+        Toast::SendNotification(title, text, pszNotificationId, pszIconPath);
     }
 
+    EXPORT void Toast_SetSelectedCallback(NotificationSelectedEventCallback callback)
+    {
+        Toast::SetSelectedCallback(callback);
+    }
     EXPORT void Toast_UnInitialize()
     {
         Toast::UnInitialize();

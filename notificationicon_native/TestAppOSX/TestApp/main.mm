@@ -103,8 +103,16 @@ int main(int argc, const char * argv[]) {
         mpTrayIcon = TrayIcon_Create();
         
         //SET AN ICON PATH HERE PNG/JPG on OSX
-        TrayIcon_Initialize((CTrayIcon *)mpTrayIcon, "/your/icon/path");
+        TrayIcon_Initialize((CTrayIcon *)mpTrayIcon, "/Users/jesser/dev/autoupdate/Tdvx.Updater.Helper/assets/AppIcon.png");
         TrayIcon_SetSelectedCallback((CTrayIcon *)mpTrayIcon, (MenuItemSelectedEventCallback)&icon_clicked);
+        
+        Toast_Initialize("ExampleAppId", "My Example App", "/Users/jesser/dev/autoupdate/Tdvx.Updater.Helper/Assets/AppIcon.png");
+
+        Toast_SendNotification("Hello", "World", "APP ID 1212", "/Users/jesser/dev/autoupdate/Tdvx.Updater.Helper/Assets/AppIcon.png");
+
+        Toast_SendNotification("", "No title empty string", "APP ID 324", "/Users/jesser/dev/autoupdate/Tdvx.Updater.Helper/Assets/AppIcon.png");
+
+        Toast_SendNotification(NULL, "No title NULL string", "APP ID 345", "/Users/jesser/dev/autoupdate/Tdvx.Updater.Helper/Assets/AppIcon.png");
         
         while (true)
         {

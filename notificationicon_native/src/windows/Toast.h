@@ -13,9 +13,15 @@ namespace notification_tray_icon_private
     public:
         static void Initialize(const CSCHAR *pszAppId, const CSCHAR *pszDisplayName, const CSCHAR *pszIconPath = NULL);
 
-        static void SendNotification(const CSCHAR *pszTitle, const CSCHAR *pszText, const CSCHAR *pszNotificationId, const CSCHAR *pszIconPath = NULL);
+        static void SendNotification(const CSCHAR *pszTitle, const CSCHAR *pszText, const CSCHAR *pszNotificationId, const CSCHAR* pszIconPath = NULL);
+
+        static void SetSelectedCallback(NotificationSelectedEventCallback callback);
 
         static void UnInitialize();
+
+    private:
+        static NotificationSelectedEventCallback NotificationSelectedCallback;
+        static bool Initialized;
     };
 }
 

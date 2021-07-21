@@ -499,48 +499,89 @@ HRESULT defaultShellLinkPath(const std::wstring& appname, WCHAR* path, DWORD nSi
 
 HRESULT	validateShellLinkHelper() {
 	WCHAR	path[MAX_PATH] = { L'\0' };
-   defaultShellLinkPath(_displayName.c_str(), path);
+	WCHAR   exePath[MAX_PATH]{ L'\0' };
+	defaultShellLinkPath(_displayName.c_str(), path);
+	defaultExecutablePath(exePath);
+	bool changesMade = false;
 
 	// Check if the file exist
-   DWORD attr = GetFileAttributesW(path);
-   if (attr >= 0xFFFFFFF) {
-       return E_FAIL;
-   }
+	DWORD attr = GetFileAttributesW(path);
+	if (attr >= 0xFFFFFFF) {
+		return E_FAIL;
+	}
 
 	// - Create a shell link
-   com_ptr<IShellLink> shellLink;
-   HRESULT hr = CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, __uuidof(shellLink), shellLink.put_void());
+	com_ptr<IShellLinkW> shellLink;
+	HRESULT hr = CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, __uuidof(shellLink), shellLink.put_void());
 	if (FAILED(hr)) return hr;
 
 	// - Create a persistant file
-   com_ptr<IPersistFile> persistFile = shellLink.as<IPersistFile>();
-   hr = persistFile->Load(path, STGM_READWRITE);
+	com_ptr<IPersistFile> persistFile = shellLink.as<IPersistFile>();
+	hr = persistFile->Load(path, STGM_READWRITE);
 	if (FAILED(hr)) return hr;
 
 	// - Load the path as data for the persistant file
 	com_ptr<IPropertyStore> propertyStore = shellLink.as<IPropertyStore>();
-   PROPVARIANT appIdPropVar;
-   hr = propertyStore->GetValue(PKEY_AppUserModel_ID, &appIdPropVar);
+	PROPVARIANT appIdPropVar;
+	hr = propertyStore->GetValue(PKEY_AppUserModel_ID, &appIdPropVar);
 	if (FAILED(hr)) return hr;
 
 	// - Read the property AUMI and validate with the current
 	// - Review if AUMI is equal.    
-   WCHAR AUMI[MAX_PATH];
-   hr = PropVariantToString(appIdPropVar, AUMI, MAX_PATH);
-   if (FAILED(hr) || _win32Aumid.c_str() != AUMI) {
-       // AUMI Changed for the same app, let's update the current value! =)
-       PropVariantClear(&appIdPropVar);
-       hr = InitPropVariantFromString(_win32Aumid.c_str(), &appIdPropVar);
-       if (SUCCEEDED(hr)) {
-           hr = propertyStore->SetValue(PKEY_AppUserModel_ID, appIdPropVar);
-           if (SUCCEEDED(hr)) {
-               hr = propertyStore->Commit();
-               if (SUCCEEDED(hr) && SUCCEEDED(persistFile->IsDirty())) {
-                   hr = persistFile->Save(path, TRUE);
-               }
-           }
-       }
-   }
+	WCHAR AUMI[MAX_PATH];
+	hr = PropVariantToString(appIdPropVar, AUMI, MAX_PATH);
+	if (FAILED(hr) || _wcsicmp(AUMI, _win32Aumid.c_str()) != 0) {
+		// AUMI Changed for the same app, let's update the current value! =)
+		PropVariantClear(&appIdPropVar);
+		hr = InitPropVariantFromString(_win32Aumid.c_str(), &appIdPropVar);
+		if (FAILED(hr)) return hr;
+
+		hr = propertyStore->SetValue(PKEY_AppUserModel_ID, appIdPropVar);
+		if (FAILED(hr)) return hr;
+
+		changesMade = true;
+		hr = propertyStore->Commit();
+		if (FAILED(hr)) return hr;
+	}
+
+	// Update Icon Location If It's Changed
+	WCHAR ICONLOC[MAX_PATH]; int index = 0;
+	shellLink->GetIconLocation(ICONLOC, MAX_PATH, &index);
+	if (_wcsicmp(ICONLOC, _iconPath.c_str()) != 0)
+	{
+		shellLink->SetIconLocation(_iconPath.c_str(), 0);
+
+		changesMade = true;
+		hr = propertyStore->Commit();
+		if (FAILED(hr)) return hr;
+	}
+
+	// Update EXE Paths It's Changed
+	WCHAR EXEPATH[MAX_PATH];
+	shellLink->GetPath(EXEPATH, MAX_PATH, NULL, 0);
+	if (_wcsicmp(EXEPATH, exePath) != 0)
+	{
+		hr = shellLink->SetPath(exePath);
+		if (FAILED(hr)) return hr;
+
+		hr = shellLink->SetArguments(L"");
+		if (FAILED(hr)) return hr;
+
+		hr = shellLink->SetWorkingDirectory(exePath);
+		if (FAILED(hr)) return hr;
+
+		changesMade = true;
+		hr = propertyStore->Commit();
+		if (FAILED(hr)) return hr;
+	}
+
+
+	if (changesMade && SUCCEEDED(persistFile->IsDirty())) {
+		hr = persistFile->Save(path, TRUE);
+	}
+
+	PropVariantClear(&appIdPropVar);
+	return hr;
 
    PropVariantClear(&appIdPropVar);
    return hr;
@@ -556,7 +597,7 @@ HRESULT	createShellLinkHelper() {
 	HRESULT hr = CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, __uuidof(shellLink), shellLink.put_void());
 	if (FAILED(hr)) return hr;
 
-   hr = shellLink->SetPath(exePath);
+    hr = shellLink->SetPath(exePath);
 	if (FAILED(hr)) return hr;
    
 	hr = shellLink->SetArguments(L"");
@@ -564,6 +605,11 @@ HRESULT	createShellLinkHelper() {
 
 	hr = shellLink->SetWorkingDirectory(exePath);
 	if (FAILED(hr)) return hr;
+
+	if (!_iconPath.empty())
+	{
+		shellLink->SetIconLocation(_iconPath.c_str(), 0);
+	}
 
 	com_ptr<IPropertyStore> propertyStore = shellLink.as<IPropertyStore>();
 	PROPVARIANT appIdPropVar;

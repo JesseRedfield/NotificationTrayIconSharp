@@ -5,7 +5,10 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RuntimeIdentifiers>win-x86;win-x64;osx-x64;osx.11.0-arm64;linux-x64;</RuntimeIdentifiers>   
+    <RuntimeIdentifiers>win-x86;win-x64;osx-x64;osx.11.0-arm64;linux-x64;</RuntimeIdentifiers>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>DebugKey.snk</AssemblyOriginatorKeyFile>
+    <Version>1.0.1</Version>   
   </PropertyGroup>
 
   <ItemGroup>

@@ -24,7 +24,7 @@ cmake ../../ \
 cd $SCRIPTDIR
 
 ## Run the build
-declare -a archs=("x86_64")
+declare -a archs=("x86_64" "arm64")
 declare -a configs=("Debug" "Release")
 
 BIN_PREBUILT=$SCRIPTDIR/../prebuilt/osx

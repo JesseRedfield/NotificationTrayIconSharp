@@ -6,13 +6,14 @@ namespace Demo
     class Program
     {
         //SET AN ICON PATH HERE, BMP/ICO on WINDOWS, PNG/JPG on OSX
-        const string icon_path = "PATH/TO/YOUR/ICON";
+        const string icon_path = "/Users/jesser/dev/autoupdate/Tdvx.Updater.Helper/assets/AppIcon.png";
 
         static bool destroy = false;
         static void Main(string[] args)
         {
-            NotificationManager.Initialize("com.tobii.test", "Tobii Test");
-            NotificationManager.SendNotification("My New Notification", "Isn't This Handy", "ActionId");
+            NotificationManager.Initialize("com.tobii.test", "Tobii Test", icon_path);
+            NotificationManager.SendNotification("My New Notification", "Isn't This Handy", "ActionId", icon_path);
+            NotificationManager.NotificationIconSelectedEvent += NotificationManager_NotificationIconSelectedEvent;
             var trayIcon = new NotificationIcon(icon_path);
             trayIcon.NotificationIconSelected += TrayIcon_NotificationIconSelected;
 
@@ -26,6 +27,11 @@ namespace Demo
                     trayIcon = null;
                 }
             }
+        }
+
+        private static void NotificationManager_NotificationIconSelectedEvent(string notificationId)
+        {
+            Console.WriteLine(notificationId);
         }
 
         private static void TrayIcon_NotificationIconSelected(NotificationIcon icon)
