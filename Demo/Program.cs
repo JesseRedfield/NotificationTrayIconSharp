@@ -6,7 +6,7 @@ namespace Demo
     class Program
     {
         //SET AN ICON PATH HERE, BMP/ICO on WINDOWS, PNG/JPG on OSX
-        const string icon_path = "/Users/jesser/dev/autoupdate/Tdvx.Updater.Helper/assets/AppIcon.png";
+        const string icon_path = "/path/to/your/icon";
 
         static bool destroy = false;
         static void Main(string[] args)
@@ -21,7 +21,7 @@ namespace Demo
             {
                 trayIcon?.DoMessageLoop(false);
 
-                if(destroy)
+                if (destroy)
                 {
                     trayIcon?.Dispose();
                     trayIcon = null;
